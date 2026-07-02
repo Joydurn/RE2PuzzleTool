@@ -369,6 +369,10 @@ lionScene.create=function(){
     keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
     keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
     keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+    keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+    keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+    keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+    keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     //adding SOUNDS
     cursor=this.sound.add('cursor',{volume: 0.4})
     wrong=this.sound.add('wrong',{volume: 0.4})
@@ -394,7 +398,7 @@ lionScene.create=function(){
         return false;
     }}
     //on W or S press, go up and down each dial
-    keyW.on('down', function(event) { 
+    pressWfunction = function() { 
         eval(`
         if(dial${selectedDial}Num>5){
             dial${selectedDial}Num=0
@@ -403,30 +407,38 @@ lionScene.create=function(){
         tween${selectedDial}W=lionScene.tweens.addCounter({
             from: dial${selectedDial}Num,
             to: dial${selectedDial}Num+1,
-            duration: 160,
+            duration: 215,
             paused:true
         });
         tween${selectedDial}W.play()
         `)
-    });
+    }
+
+    keyW.on('down', pressWfunction)
     
-    keyS.on('down', function(event) { 
+    pressSfunction = function() { 
         eval(`
         if(dial${selectedDial}Num<=0){
             dial${selectedDial}Num=6
         }
         lionScene.sound.play('updown', { volume: 0.4 });
-        tween${selectedDial}S=lionScene.tweens.addCounter({
+        tween${selectedDial}W=lionScene.tweens.addCounter({
             from: dial${selectedDial}Num,
             to: dial${selectedDial}Num-1,
-            duration: 160,
+            duration: 215,
             paused:true
         });
-        tween${selectedDial}S.play()
+        tween${selectedDial}W.play()
         `)
-    });
+    }
+
+    keyS.on('down', pressSfunction);
+
     //tap A and D to change dial
-    keyA.on('down', function(event) { 
+    pressAfunction = function(event) { 
+        if(tween1W.isPlaying() || tween1S.isPlaying() || tween2W.isPlaying() || tween2S.isPlaying() || tween3W.isPlaying() || tween3S.isPlaying()){
+            return;
+        }
         leftright.play();
         eval(`dial${selectedDial}.tint=${darkTint}`) //remove tint
         //switch dial
@@ -436,9 +448,14 @@ lionScene.create=function(){
             selectedDial-=1
         }
         eval(`dial${selectedDial}.tint=${lightTint}`) //highlight new dial
-        
-    });
-    keyD.on('down', function(event) { 
+    }
+
+    keyA.on('down', pressAfunction);
+
+    pressDfunction = function(event) { 
+        if(tween1W.isPlaying() || tween1S.isPlaying() || tween2W.isPlaying() || tween2S.isPlaying() || tween3W.isPlaying() || tween3S.isPlaying()){
+            return;
+        }
         leftright.play();
         eval(`dial${selectedDial}.tint=${darkTint}`) //remove tint
         //switch dial
@@ -448,9 +465,58 @@ lionScene.create=function(){
             selectedDial+=1
         }
         eval(`dial${selectedDial}.tint=${lightTint}`) //highlight new dial
+    }
+
+    keyD.on('down', pressDfunction);
+
+
+    //extra key inputs emulate
+    keyUp.on('down', function(event) {
+        keyW.emit('down', event);
+    });
+    keyDown.on('down', function(event) {
+        keyS.emit('down', event);
+    });
+    keyLeft.on('down', function(event) {
+        keyA.emit('down', event);
+    });
+    keyRight.on('down', function(event) {
+        keyD.emit('down', event);
     });
 
-    //Q E , or F to confirm solution
+    this.input.on('pointerdown', function(pointer) {
+
+        if (
+            pointer.manager.hitTest(pointer, [
+                this.btnW,
+                this.btnA,
+                this.btnS,
+                this.btnD,
+                this.btnF
+            ], this.cameras.main).length > 0
+        ) {
+            return; // Clicked on a virtual button
+        }
+
+        keyF.emit('down', pointer);
+
+    }, this);
+
+    //TOUCHSCREEN CONTROLS
+    this.btnW = this.add.circle(230, 350, 80, 0xffffff, 0.3).setInteractive();
+    this.btnS = this.add.circle(230, 530, 80, 0xffffff, 0.3).setInteractive();
+
+    this.btnA = this.add.circle(this.scale.width - 300, 530, 80, 0xffffff, 0.3).setInteractive();
+    this.btnD = this.add.circle(this.scale.width - 120, 530, 80, 0xffffff, 0.3).setInteractive();
+    this.btnF = this.add.circle(this.scale.width - 120, 230, 60, 0xffffff, 0.3).setInteractive();
+    //EMULATE WASD AND F INPUTS
+    this.btnW.on('pointerdown', () => keyW.emit('down'));
+    this.btnA.on('pointerdown', () => keyA.emit('down'));
+    this.btnS.on('pointerdown', () => keyS.emit('down'));
+    this.btnD.on('pointerdown', () => keyD.emit('down'));
+    this.btnF.on('pointerdown', () => keyF.emit('down'));
+
+    //Q E , or F or left click to confirm solution
     completedTime=0
     timerStopped=false
     keyQ.on('down',function(event){
@@ -784,6 +850,10 @@ unicornScene.create=function(){
     keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
     keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
     keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+    keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+    keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+    keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+    keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     //adding SOUNDS
     cursor=this.sound.add('cursor',{volume: 0.4})
     wrong=this.sound.add('wrong',{volume: 0.4})
@@ -818,7 +888,7 @@ unicornScene.create=function(){
         tween${selectedDial}W=unicornScene.tweens.addCounter({
             from: dial${selectedDial}Num,
             to: dial${selectedDial}Num+1,
-            duration: 160,
+            duration: 215,
             paused:true
         });
         tween${selectedDial}W.play()
@@ -834,7 +904,7 @@ unicornScene.create=function(){
         tween${selectedDial}S=unicornScene.tweens.addCounter({
             from: dial${selectedDial}Num,
             to: dial${selectedDial}Num-1,
-            duration: 160,
+            duration: 215,
             paused:true
         });
         tween${selectedDial}S.play()
@@ -842,6 +912,9 @@ unicornScene.create=function(){
     });
     //tap A and D to change dial
     keyA.on('down', function(event) { 
+        if(tween1W.isPlaying() || tween1S.isPlaying() || tween2W.isPlaying() || tween2S.isPlaying() || tween3W.isPlaying() || tween3S.isPlaying()){
+            return;
+        }
         leftright.play();
         eval(`dial${selectedDial}.tint=${darkTint}`) //remove tint
         //switch dial
@@ -854,6 +927,9 @@ unicornScene.create=function(){
         
     });
     keyD.on('down', function(event) { 
+        if(tween1W.isPlaying() || tween1S.isPlaying() || tween2W.isPlaying() || tween2S.isPlaying() || tween3W.isPlaying() || tween3S.isPlaying()){
+            return;
+        }
         leftright.play();
         eval(`dial${selectedDial}.tint=${darkTint}`) //remove tint
         //switch dial
@@ -864,6 +940,49 @@ unicornScene.create=function(){
         }
         eval(`dial${selectedDial}.tint=${lightTint}`) //highlight new dial
     });
+    keyUp.on('down', function(event) {
+        keyW.emit('down', event);
+    });
+    keyDown.on('down', function(event) {
+        keyS.emit('down', event);
+    });
+    keyLeft.on('down', function(event) {
+        keyA.emit('down', event);
+    });
+    keyRight.on('down', function(event) {
+        keyD.emit('down', event);
+    });
+    this.input.on('pointerdown', function(pointer) {
+
+        if (
+            pointer.manager.hitTest(pointer, [
+                this.btnW,
+                this.btnA,
+                this.btnS,
+                this.btnD,
+                this.btnF
+            ], this.cameras.main).length > 0
+        ) {
+            return; // Clicked on a virtual button
+        }
+
+        keyF.emit('down', pointer);
+
+    }, this);
+
+    //TOUCHSCREEN CONTROLS
+    this.btnW = this.add.circle(230, 350, 80, 0xffffff, 0.3).setInteractive();
+    this.btnS = this.add.circle(230, 530, 80, 0xffffff, 0.3).setInteractive();
+
+    this.btnA = this.add.circle(this.scale.width - 300, 530, 80, 0xffffff, 0.3).setInteractive();
+    this.btnD = this.add.circle(this.scale.width - 120, 530, 80, 0xffffff, 0.3).setInteractive();
+    this.btnF = this.add.circle(this.scale.width - 120, 230, 60, 0xffffff, 0.3).setInteractive();
+    //EMULATE WASD AND F INPUTS
+    this.btnW.on('pointerdown', () => keyW.emit('down'));
+    this.btnA.on('pointerdown', () => keyA.emit('down'));
+    this.btnS.on('pointerdown', () => keyS.emit('down'));
+    this.btnD.on('pointerdown', () => keyD.emit('down'));
+    this.btnF.on('pointerdown', () => keyF.emit('down'));
 
     //Q E , or F to confirm solution
     completedTime=0
@@ -911,7 +1030,7 @@ unicornScene.create=function(){
         }else{
             //after 'wrong' message, revert to normal
             setTimeout(function(){
-                text.setText('Lion Leaf Bird');
+                text.setText('Fish Scorpion Loot');
                 text.setFill('#FFFFFF');
             },700)
             text.setText('Wrong!') 
@@ -963,7 +1082,7 @@ unicornScene.create=function(){
         }else{
             //after 'wrong' message, revert to normal
             setTimeout(function(){
-                text.setText('Lion Leaf Bird');
+                text.setText('Fish Scorpion Loot');
                 text.setFill('#FFFFFF');
             },700)
             text.setText('Wrong!') 
@@ -1016,7 +1135,7 @@ unicornScene.create=function(){
         }else{
             //after 'wrong' message, revert to normal
             setTimeout(function(){
-                text.setText('Lion Leaf Bird');
+                text.setText('Fish Scorpion Loot');
                 text.setFill('#FFFFFF');
             },700)
             text.setText('Wrong!') 
@@ -1200,6 +1319,10 @@ maidenScene.create=function(){
     keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
     keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
     keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+    keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+    keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+    keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+    keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     //adding SOUNDS
     cursor=this.sound.add('cursor',{volume: 0.4})
     wrong=this.sound.add('wrong',{volume: 0.4})
@@ -1234,7 +1357,7 @@ maidenScene.create=function(){
         tween${selectedDial}W=maidenScene.tweens.addCounter({
             from: dial${selectedDial}Num,
             to: dial${selectedDial}Num+1,
-            duration: 160,
+            duration: 215,
             paused:true
         });
         tween${selectedDial}W.play()
@@ -1250,7 +1373,7 @@ maidenScene.create=function(){
         tween${selectedDial}S=maidenScene.tweens.addCounter({
             from: dial${selectedDial}Num,
             to: dial${selectedDial}Num-1,
-            duration: 160,
+            duration: 215,
             paused:true
         });
         tween${selectedDial}S.play()
@@ -1258,6 +1381,9 @@ maidenScene.create=function(){
     });
     //tap A and D to change dial
     keyA.on('down', function(event) { 
+        if(tween1W.isPlaying() || tween1S.isPlaying() || tween2W.isPlaying() || tween2S.isPlaying() || tween3W.isPlaying() || tween3S.isPlaying()){
+            return;
+        }
         leftright.play();
         eval(`dial${selectedDial}.tint=${darkTint}`) //remove tint
         //switch dial
@@ -1270,6 +1396,9 @@ maidenScene.create=function(){
         
     });
     keyD.on('down', function(event) { 
+        if(tween1W.isPlaying() || tween1S.isPlaying() || tween2W.isPlaying() || tween2S.isPlaying() || tween3W.isPlaying() || tween3S.isPlaying()){
+            return;
+        }
         leftright.play();
         eval(`dial${selectedDial}.tint=${darkTint}`) //remove tint
         //switch dial
@@ -1280,6 +1409,49 @@ maidenScene.create=function(){
         }
         eval(`dial${selectedDial}.tint=${lightTint}`) //highlight new dial
     });
+    keyUp.on('down', function(event) {
+        keyW.emit('down', event);
+    });
+    keyDown.on('down', function(event) {
+        keyS.emit('down', event);
+    });
+    keyLeft.on('down', function(event) {
+        keyA.emit('down', event);
+    });
+    keyRight.on('down', function(event) {
+        keyD.emit('down', event);
+    });
+    this.input.on('pointerdown', function(pointer) {
+
+        if (
+            pointer.manager.hitTest(pointer, [
+                this.btnW,
+                this.btnA,
+                this.btnS,
+                this.btnD,
+                this.btnF
+            ], this.cameras.main).length > 0
+        ) {
+            return; // Clicked on a virtual button
+        }
+
+        keyF.emit('down', pointer);
+
+    }, this);
+
+    //TOUCHSCREEN CONTROLS
+    this.btnW = this.add.circle(230, 350, 80, 0xffffff, 0.3).setInteractive();
+    this.btnS = this.add.circle(230, 530, 80, 0xffffff, 0.3).setInteractive();
+
+    this.btnA = this.add.circle(this.scale.width - 300, 530, 80, 0xffffff, 0.3).setInteractive();
+    this.btnD = this.add.circle(this.scale.width - 120, 530, 80, 0xffffff, 0.3).setInteractive();
+    this.btnF = this.add.circle(this.scale.width - 120, 230, 60, 0xffffff, 0.3).setInteractive();
+    //EMULATE WASD AND F INPUTS
+    this.btnW.on('pointerdown', () => keyW.emit('down'));
+    this.btnA.on('pointerdown', () => keyA.emit('down'));
+    this.btnS.on('pointerdown', () => keyS.emit('down'));
+    this.btnD.on('pointerdown', () => keyD.emit('down'));
+    this.btnF.on('pointerdown', () => keyF.emit('down'));
 
     //Q E , or F to confirm solution
     completedTime=0
@@ -1327,7 +1499,7 @@ maidenScene.create=function(){
         }else{
             //after 'wrong' message, revert to normal
             setTimeout(function(){
-                text.setText('Lion Leaf Bird');
+                text.setText('Woman Bow Snake');
                 text.setFill('#FFFFFF');
             },700)
             text.setText('Wrong!') 
@@ -1379,7 +1551,7 @@ maidenScene.create=function(){
         }else{
             //after 'wrong' message, revert to normal
             setTimeout(function(){
-                text.setText('Lion Leaf Bird');
+                text.setText('Woman Bow Snake');
                 text.setFill('#FFFFFF');
             },700)
             text.setText('Wrong!') 
@@ -1432,7 +1604,7 @@ maidenScene.create=function(){
         }else{
             //after 'wrong' message, revert to normal
             setTimeout(function(){
-                text.setText('Lion Leaf Bird');
+                text.setText('Woman Bow Snake');
                 text.setFill('#FFFFFF');
             },700)
             text.setText('Wrong!') 
@@ -1621,6 +1793,10 @@ lion2Scene.create=function(){
     keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
     keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
     keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+    keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+    keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+    keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+    keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     //adding SOUNDS
     cursor=this.sound.add('cursor',{volume: 0.4})
     wrong=this.sound.add('wrong',{volume: 0.4})
@@ -1655,7 +1831,7 @@ lion2Scene.create=function(){
         tween${selectedDial}W=lion2Scene.tweens.addCounter({
             from: dial${selectedDial}Num,
             to: dial${selectedDial}Num+1,
-            duration: 160,
+            duration: 215,
             paused:true
         });
         tween${selectedDial}W.play()
@@ -1671,7 +1847,7 @@ lion2Scene.create=function(){
         tween${selectedDial}S=lion2Scene.tweens.addCounter({
             from: dial${selectedDial}Num,
             to: dial${selectedDial}Num-1,
-            duration: 160,
+            duration: 215,
             paused:true
         });
         tween${selectedDial}S.play()
@@ -1679,6 +1855,9 @@ lion2Scene.create=function(){
     });
     //tap A and D to change dial
     keyA.on('down', function(event) { 
+        if(tween1W.isPlaying() || tween1S.isPlaying() || tween2W.isPlaying() || tween2S.isPlaying() || tween3W.isPlaying() || tween3S.isPlaying()){
+            return;
+        }
         leftright.play();
         eval(`dial${selectedDial}.tint=${darkTint}`) //remove tint
         //switch dial
@@ -1691,6 +1870,9 @@ lion2Scene.create=function(){
         
     });
     keyD.on('down', function(event) { 
+        if(tween1W.isPlaying() || tween1S.isPlaying() || tween2W.isPlaying() || tween2S.isPlaying() || tween3W.isPlaying() || tween3S.isPlaying()){
+            return;
+        }
         leftright.play();
         eval(`dial${selectedDial}.tint=${darkTint}`) //remove tint
         //switch dial
@@ -1701,6 +1883,49 @@ lion2Scene.create=function(){
         }
         eval(`dial${selectedDial}.tint=${lightTint}`) //highlight new dial
     });
+    keyUp.on('down', function(event) {
+        keyW.emit('down', event);
+    });
+    keyDown.on('down', function(event) {
+        keyS.emit('down', event);
+    });
+    keyLeft.on('down', function(event) {
+        keyA.emit('down', event);
+    });
+    keyRight.on('down', function(event) {
+        keyD.emit('down', event);
+    });
+    this.input.on('pointerdown', function(pointer) {
+
+        if (
+            pointer.manager.hitTest(pointer, [
+                this.btnW,
+                this.btnA,
+                this.btnS,
+                this.btnD,
+                this.btnF
+            ], this.cameras.main).length > 0
+        ) {
+            return; // Clicked on a virtual button
+        }
+
+        keyF.emit('down', pointer);
+
+    }, this);
+
+    //TOUCHSCREEN CONTROLS
+    this.btnW = this.add.circle(230, 350, 80, 0xffffff, 0.3).setInteractive();
+    this.btnS = this.add.circle(230, 530, 80, 0xffffff, 0.3).setInteractive();
+
+    this.btnA = this.add.circle(this.scale.width - 300, 530, 80, 0xffffff, 0.3).setInteractive();
+    this.btnD = this.add.circle(this.scale.width - 120, 530, 80, 0xffffff, 0.3).setInteractive();
+    this.btnF = this.add.circle(this.scale.width - 120, 230, 60, 0xffffff, 0.3).setInteractive();
+    //EMULATE WASD AND F INPUTS
+    this.btnW.on('pointerdown', () => keyW.emit('down'));
+    this.btnA.on('pointerdown', () => keyA.emit('down'));
+    this.btnS.on('pointerdown', () => keyS.emit('down'));
+    this.btnD.on('pointerdown', () => keyD.emit('down'));
+    this.btnF.on('pointerdown', () => keyF.emit('down'));
 
     //Q E , or F to confirm solution
     completedTime=0
@@ -1748,7 +1973,7 @@ lion2Scene.create=function(){
         }else{
             //after 'wrong' message, revert to normal
             setTimeout(function(){
-                text.setText('Lion Leaf Bird');
+                text.setText('Crown Fire Bird');
                 text.setFill('#FFFFFF');
             },700)
             text.setText('Wrong!') 
@@ -1800,7 +2025,7 @@ lion2Scene.create=function(){
         }else{
             //after 'wrong' message, revert to normal
             setTimeout(function(){
-                text.setText('Lion Leaf Bird');
+                text.setText('Crown Fire Bird');
                 text.setFill('#FFFFFF');
             },700)
             text.setText('Wrong!') 
@@ -1853,7 +2078,7 @@ lion2Scene.create=function(){
         }else{
             //after 'wrong' message, revert to normal
             setTimeout(function(){
-                text.setText('Lion Leaf Bird');
+                text.setText('Crown Fire Bird');
                 text.setFill('#FFFFFF');
             },700)
             text.setText('Wrong!') 
@@ -2036,6 +2261,10 @@ unicorn2Scene.create=function(){
     keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
     keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
     keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+    keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+    keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+    keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+    keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     //adding SOUNDS
     cursor=this.sound.add('cursor',{volume: 0.4})
     wrong=this.sound.add('wrong',{volume: 0.4})
@@ -2070,7 +2299,7 @@ unicorn2Scene.create=function(){
         tween${selectedDial}W=unicorn2Scene.tweens.addCounter({
             from: dial${selectedDial}Num,
             to: dial${selectedDial}Num+1,
-            duration: 160,
+            duration: 215,
             paused:true
         });
         tween${selectedDial}W.play()
@@ -2086,7 +2315,7 @@ unicorn2Scene.create=function(){
         tween${selectedDial}S=unicorn2Scene.tweens.addCounter({
             from: dial${selectedDial}Num,
             to: dial${selectedDial}Num-1,
-            duration: 160,
+            duration: 215,
             paused:true
         });
         tween${selectedDial}S.play()
@@ -2094,6 +2323,9 @@ unicorn2Scene.create=function(){
     });
     //tap A and D to change dial
     keyA.on('down', function(event) { 
+        if(tween1W.isPlaying() || tween1S.isPlaying() || tween2W.isPlaying() || tween2S.isPlaying() || tween3W.isPlaying() || tween3S.isPlaying()){
+            return;
+        }
         leftright.play();
         eval(`dial${selectedDial}.tint=${darkTint}`) //remove tint
         //switch dial
@@ -2106,6 +2338,9 @@ unicorn2Scene.create=function(){
         
     });
     keyD.on('down', function(event) { 
+        if(tween1W.isPlaying() || tween1S.isPlaying() || tween2W.isPlaying() || tween2S.isPlaying() || tween3W.isPlaying() || tween3S.isPlaying()){
+            return;
+        }
         leftright.play();
         eval(`dial${selectedDial}.tint=${darkTint}`) //remove tint
         //switch dial
@@ -2116,6 +2351,49 @@ unicorn2Scene.create=function(){
         }
         eval(`dial${selectedDial}.tint=${lightTint}`) //highlight new dial
     });
+    keyUp.on('down', function(event) {
+        keyW.emit('down', event);
+    });
+    keyDown.on('down', function(event) {
+        keyS.emit('down', event);
+    });
+    keyLeft.on('down', function(event) {
+        keyA.emit('down', event);
+    });
+    keyRight.on('down', function(event) {
+        keyD.emit('down', event);
+    });
+    this.input.on('pointerdown', function(pointer) {
+
+        if (
+            pointer.manager.hitTest(pointer, [
+                this.btnW,
+                this.btnA,
+                this.btnS,
+                this.btnD,
+                this.btnF
+            ], this.cameras.main).length > 0
+        ) {
+            return; // Clicked on a virtual button
+        }
+
+        keyF.emit('down', pointer);
+
+    }, this);
+
+    //TOUCHSCREEN CONTROLS
+    this.btnW = this.add.circle(230, 350, 80, 0xffffff, 0.3).setInteractive();
+    this.btnS = this.add.circle(230, 530, 80, 0xffffff, 0.3).setInteractive();
+
+    this.btnA = this.add.circle(this.scale.width - 300, 530, 80, 0xffffff, 0.3).setInteractive();
+    this.btnD = this.add.circle(this.scale.width - 120, 530, 80, 0xffffff, 0.3).setInteractive();
+    this.btnF = this.add.circle(this.scale.width - 120, 230, 60, 0xffffff, 0.3).setInteractive();
+    //EMULATE WASD AND F INPUTS
+    this.btnW.on('pointerdown', () => keyW.emit('down'));
+    this.btnA.on('pointerdown', () => keyA.emit('down'));
+    this.btnS.on('pointerdown', () => keyS.emit('down'));
+    this.btnD.on('pointerdown', () => keyD.emit('down'));
+    this.btnF.on('pointerdown', () => keyF.emit('down'));
 
     //Q E , or F to confirm solution
     completedTime=0
@@ -2163,7 +2441,7 @@ unicorn2Scene.create=function(){
         }else{
             //after 'wrong' message, revert to normal
             setTimeout(function(){
-                text.setText('Lion Leaf Bird');
+                text.setText('Twin Scale Worm');
                 text.setFill('#FFFFFF');
             },700)
             text.setText('Wrong!') 
@@ -2215,7 +2493,7 @@ unicorn2Scene.create=function(){
         }else{
             //after 'wrong' message, revert to normal
             setTimeout(function(){
-                text.setText('Lion Leaf Bird');
+                text.setText('Twin Scale Worm');
                 text.setFill('#FFFFFF');
             },700)
             text.setText('Wrong!') 
@@ -2268,7 +2546,7 @@ unicorn2Scene.create=function(){
         }else{
             //after 'wrong' message, revert to normal
             setTimeout(function(){
-                text.setText('Lion Leaf Bird');
+                text.setText('Twin Scale Worm');
                 text.setFill('#FFFFFF');
             },700)
             text.setText('Wrong!') 
@@ -2451,6 +2729,10 @@ maiden2Scene.create=function(){
     keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
     keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
     keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+    keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+    keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+    keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+    keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     //adding SOUNDS
     cursor=this.sound.add('cursor',{volume: 0.4})
     wrong=this.sound.add('wrong',{volume: 0.4})
@@ -2485,7 +2767,7 @@ maiden2Scene.create=function(){
         tween${selectedDial}W=maiden2Scene.tweens.addCounter({
             from: dial${selectedDial}Num,
             to: dial${selectedDial}Num+1,
-            duration: 160,
+            duration: 215,
             paused:true
         });
         tween${selectedDial}W.play()
@@ -2501,7 +2783,7 @@ maiden2Scene.create=function(){
         tween${selectedDial}S=maiden2Scene.tweens.addCounter({
             from: dial${selectedDial}Num,
             to: dial${selectedDial}Num-1,
-            duration: 160,
+            duration: 215,
             paused:true
         });
         tween${selectedDial}S.play()
@@ -2509,6 +2791,9 @@ maiden2Scene.create=function(){
     });
     //tap A and D to change dial
     keyA.on('down', function(event) { 
+        if(tween1W.isPlaying() || tween1S.isPlaying() || tween2W.isPlaying() || tween2S.isPlaying() || tween3W.isPlaying() || tween3S.isPlaying()){
+            return;
+        }
         leftright.play();
         eval(`dial${selectedDial}.tint=${darkTint}`) //remove tint
         //switch dial
@@ -2521,6 +2806,9 @@ maiden2Scene.create=function(){
         
     });
     keyD.on('down', function(event) { 
+        if(tween1W.isPlaying() || tween1S.isPlaying() || tween2W.isPlaying() || tween2S.isPlaying() || tween3W.isPlaying() || tween3S.isPlaying()){
+            return;
+        }
         leftright.play();
         eval(`dial${selectedDial}.tint=${darkTint}`) //remove tint
         //switch dial
@@ -2531,6 +2819,49 @@ maiden2Scene.create=function(){
         }
         eval(`dial${selectedDial}.tint=${lightTint}`) //highlight new dial
     });
+    keyUp.on('down', function(event) {
+        keyW.emit('down', event);
+    });
+    keyDown.on('down', function(event) {
+        keyS.emit('down', event);
+    });
+    keyLeft.on('down', function(event) {
+        keyA.emit('down', event);
+    });
+    keyRight.on('down', function(event) {
+        keyD.emit('down', event);
+    });
+    this.input.on('pointerdown', function(pointer) {
+
+        if (
+            pointer.manager.hitTest(pointer, [
+                this.btnW,
+                this.btnA,
+                this.btnS,
+                this.btnD,
+                this.btnF
+            ], this.cameras.main).length > 0
+        ) {
+            return; // Clicked on a virtual button
+        }
+
+        keyF.emit('down', pointer);
+
+    }, this);
+
+    //TOUCHSCREEN CONTROLS
+    this.btnW = this.add.circle(230, 350, 80, 0xffffff, 0.3).setInteractive();
+    this.btnS = this.add.circle(230, 530, 80, 0xffffff, 0.3).setInteractive();
+
+    this.btnA = this.add.circle(this.scale.width - 300, 530, 80, 0xffffff, 0.3).setInteractive();
+    this.btnD = this.add.circle(this.scale.width - 120, 530, 80, 0xffffff, 0.3).setInteractive();
+    this.btnF = this.add.circle(this.scale.width - 120, 230, 60, 0xffffff, 0.3).setInteractive();
+    //EMULATE WASD AND F INPUTS
+    this.btnW.on('pointerdown', () => keyW.emit('down'));
+    this.btnA.on('pointerdown', () => keyA.emit('down'));
+    this.btnS.on('pointerdown', () => keyS.emit('down'));
+    this.btnD.on('pointerdown', () => keyD.emit('down'));
+    this.btnF.on('pointerdown', () => keyF.emit('down'));
 
     //Q E , or F to confirm solution
     completedTime=0
@@ -2578,7 +2909,7 @@ maiden2Scene.create=function(){
         }else{
             //after 'wrong' message, revert to normal
             setTimeout(function(){
-                text.setText('Lion Leaf Bird');
+                text.setText('Ram Harp Bird');
                 text.setFill('#FFFFFF');
             },700)
             text.setText('Wrong!') 
@@ -2630,7 +2961,7 @@ maiden2Scene.create=function(){
         }else{
             //after 'wrong' message, revert to normal
             setTimeout(function(){
-                text.setText('Lion Leaf Bird');
+                text.setText('Ram Harp Bird');
                 text.setFill('#FFFFFF');
             },700)
             text.setText('Wrong!') 
@@ -2683,7 +3014,7 @@ maiden2Scene.create=function(){
         }else{
             //after 'wrong' message, revert to normal
             setTimeout(function(){
-                text.setText('Lion Leaf Bird');
+                text.setText('Ram Harp Bird');
                 text.setFill('#FFFFFF');
             },700)
             text.setText('Wrong!') 
