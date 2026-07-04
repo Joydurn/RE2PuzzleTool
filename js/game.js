@@ -11,6 +11,7 @@ let lion2Scene=new Phaser.Scene('lion2');
 let unicorn2Scene=new Phaser.Scene('unicorn2');
 let maiden2Scene=new Phaser.Scene('maiden2');
 
+let gauntletMode=false
 homeScene.preload=function(){
     lion=this.load.image('lion','assets/lion.png')
     unicorn=this.load.image('unicorn','assets/unicorn.png')
@@ -22,8 +23,8 @@ homeScene.preload=function(){
 }
 homeScene.create=function(){
     let { width, height } = this.sys.game.canvas; //get width and height of game window
-    const header=this.add.text(width/2,0,'CHOOSE MEDALLION',
-    { fill: '#90e0ef',fontFamily:'Arial Black', fontSize: 48, stroke:'#00000',strokeThickness: 10})
+    const header=this.add.text(225,5,'CHOOSE MEDALLION',
+    { fill: '#90e0ef',fontFamily:'Arial Black', fontSize: 36, stroke:'#00000',strokeThickness: 10})
     .setOrigin(0.5,0)
     //INFO BUTTON
     infoButton = this.add.text(0, 720, 'INFO',{backgroundColor: '#4CAF50', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 54, }).setOrigin(0,1)
@@ -38,7 +39,24 @@ homeScene.create=function(){
 	    .on('pointerdown', function(){
             this.scene.start('info');
         },this)
-    const lionButton = this.add.text(width/3, 90, 'Lion A', {backgroundColor: '#4CAF50', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 32, }).setOrigin(0.5)
+    
+    gauntletButton = this.add.text(0, 300, `Gauntlet Mode:\n        ${gauntletMode ? 'ON' : 'OFF'}`,{backgroundColor: '#ae1d1d', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 36, }).setOrigin(0,1)
+        .setPadding(10)
+        .setInteractive( { useHandCursor: true })
+        .on('pointerover',function(pointer){
+            gauntletButton.setScale(1.05);
+        })
+        .on('pointerout',function(pointer){
+            gauntletButton.setScale(1);
+        })
+	    .on('pointerdown', function(){
+            gauntletMode = !gauntletMode
+            gauntletButton.setText(
+            `Gauntlet Mode:\n        ${gauntletMode ? 'ON' : 'OFF'}`)
+        },this)
+    
+    x_offset=50
+    const lionButton = this.add.text(width/3+x_offset, 90, 'Lion A', {backgroundColor: '#4CAF50', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 32, }).setOrigin(0.5)
         .setPadding(10)
         .setInteractive( { useHandCursor: true })
         .on('pointerover',function(pointer){
@@ -52,7 +70,7 @@ homeScene.create=function(){
 	    .on('pointerdown', function(){
             this.scene.start('lion');
         },this)
-    const lionSprite=this.add.sprite(width/3,185,'lion').setScale(1.3)
+    const lionSprite=this.add.sprite(width/3+x_offset,185,'lion').setScale(1.3)
         .setInteractive( { useHandCursor: true })
         .on('pointerover',function(pointer){
             lionButton.setScale(1.05);
@@ -69,7 +87,7 @@ homeScene.create=function(){
 
 
 
-    const unicornButton = this.add.text(width/3, 300, 'Unicorn A', {backgroundColor: '#4CAF50', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 32, }).setOrigin(0.5)
+    const unicornButton = this.add.text(width/3+x_offset, 300, 'Unicorn A', {backgroundColor: '#4CAF50', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 32, }).setOrigin(0.5)
         .setPadding(10)
         .setInteractive( { useHandCursor: true })
         .on('pointerover',function(pointer){
@@ -83,7 +101,7 @@ homeScene.create=function(){
 	    .on('pointerdown', function(){
             this.scene.start('unicorn');
         },this)
-    const unicornSprite=this.add.sprite(width/3,395,'unicorn').setScale(1.7)
+    const unicornSprite=this.add.sprite(width/3+x_offset,395,'unicorn').setScale(1.7)
         .setInteractive( { useHandCursor: true })
         .on('pointerover',function(pointer){
             unicornButton.setScale(1.05);
@@ -98,7 +116,7 @@ homeScene.create=function(){
         },this)
     
 
-    const maidenButton = this.add.text(width/3, 510, 'Maiden A', {backgroundColor: '#4CAF50', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 32, }).setOrigin(0.5)
+    const maidenButton = this.add.text(width/3+x_offset, 510, 'Maiden A', {backgroundColor: '#4CAF50', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 32, }).setOrigin(0.5)
         .setPadding(10)
         .setInteractive( { useHandCursor: true })
         .on('pointerover',function(pointer){
@@ -112,7 +130,7 @@ homeScene.create=function(){
 	    .on('pointerdown', function(){
             this.scene.start('maiden');
         },this)
-    const maidenSprite=this.add.sprite(width/3,605,'maiden').setScale(1.3)
+    const maidenSprite=this.add.sprite(width/3+x_offset,605,'maiden').setScale(1.3)
         .setInteractive( { useHandCursor: true })
         .on('pointerover',function(pointer){
             maidenButton.setScale(1.05);
@@ -127,7 +145,7 @@ homeScene.create=function(){
         },this)
     
     //**********B Scenarios***********
-    const lion2Button = this.add.text(width/3*2, 90, 'Lion B', {backgroundColor: '#4CAF50', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 32, }).setOrigin(0.5)
+    const lion2Button = this.add.text(width/3*2+x_offset, 90, 'Lion B', {backgroundColor: '#4CAF50', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 32, }).setOrigin(0.5)
         .setPadding(10)
         .setInteractive( { useHandCursor: true })
         .on('pointerover',function(pointer){
@@ -141,7 +159,7 @@ homeScene.create=function(){
 	    .on('pointerdown', function(){
             this.scene.start('lion');
         },this)
-    const lion2Sprite=this.add.sprite(width/3*2,185,'lionB').setScale(1.3)
+    const lion2Sprite=this.add.sprite(width/3*2+x_offset,185,'lionB').setScale(1.3)
         .setInteractive( { useHandCursor: true })
         .on('pointerover',function(pointer){
             lion2Button.setScale(1.05);
@@ -158,7 +176,7 @@ homeScene.create=function(){
 
 
 
-    const unicorn2Button = this.add.text(width/3*2, 300, 'Unicorn B', {backgroundColor: '#4CAF50', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 32, }).setOrigin(0.5)
+    const unicorn2Button = this.add.text(width/3*2+x_offset, 300, 'Unicorn B', {backgroundColor: '#4CAF50', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 32, }).setOrigin(0.5)
         .setPadding(10)
         .setInteractive( { useHandCursor: true })
         .on('pointerover',function(pointer){
@@ -172,7 +190,7 @@ homeScene.create=function(){
 	    .on('pointerdown', function(){
             this.scene.start('unicorn');
         },this)
-    const unicorn2Sprite=this.add.sprite(width/3*2,395,'unicornB').setScale(1.3)
+    const unicorn2Sprite=this.add.sprite(width/3*2+x_offset,395,'unicornB').setScale(1.3)
         .setInteractive( { useHandCursor: true })
         .on('pointerover',function(pointer){
             unicorn2Button.setScale(1.05);
@@ -187,7 +205,7 @@ homeScene.create=function(){
         },this)
     
 
-    const maiden2Button = this.add.text(width/3*2, 510, 'Maiden B', {backgroundColor: '#4CAF50', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 32, }).setOrigin(0.5)
+    const maiden2Button = this.add.text(width/3*2+x_offset, 510, 'Maiden B', {backgroundColor: '#4CAF50', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 32, }).setOrigin(0.5)
         .setPadding(10)
         .setInteractive( { useHandCursor: true })
         .on('pointerover',function(pointer){
@@ -201,7 +219,7 @@ homeScene.create=function(){
 	    .on('pointerdown', function(){
             this.scene.start('maiden');
         },this)
-    const maiden2Sprite=this.add.sprite(width/3*2,605,'maidenB').setScale(1.3)
+    const maiden2Sprite=this.add.sprite(width/3*2+x_offset,605,'maidenB').setScale(1.3)
         .setInteractive( { useHandCursor: true })
         .on('pointerover',function(pointer){
             maiden2Button.setScale(1.05);
@@ -259,7 +277,7 @@ infoScene.create=function(){
     text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
 
 }
-var keyW,keyA,keyD,keySPACE; //keyboard input variables
+
 
 //*************************************A SCENARIOS**********************************
 //**************************LION SCENE*****************************
@@ -300,6 +318,21 @@ lionScene.create=function(){
     
     //masks rest of dials (anything added before this line will be covered)
     backgroundMask=this.add.sprite(0,0,`background`).setOrigin(0, 0)
+    //gauntlet button
+    gauntletButton = this.add.text(width-300, 100, `Gauntlet Mode:\n        ${gauntletMode ? 'ON' : 'OFF'}`,{backgroundColor: '#ae1d1d', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 24, }).setOrigin(0,1)
+        .setPadding(10)
+        .setInteractive( { useHandCursor: true })
+        .on('pointerover',function(pointer){
+            gauntletButton.setScale(1.05);
+        })
+        .on('pointerout',function(pointer){
+            gauntletButton.setScale(1);
+        })
+	    .on('pointerdown', function(){
+            gauntletMode = !gauntletMode
+            gauntletButton.setText(
+            `Gauntlet Mode:\n        ${gauntletMode ? 'ON' : 'OFF'}`)
+        },this)
     //back to home button
     homeButton = this.add.text(0, 720, 'BACK',{backgroundColor: '#4CAF50', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 54, }).setOrigin(0,1)
         .setPadding(10)
@@ -360,19 +393,19 @@ lionScene.create=function(){
     dial2.tint=darkTint //dull the others
     dial3.tint=darkTint
     //keyboard inputs
-    keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-    keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-    keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-    keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-    keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
-    keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
-    keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
-    keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-    keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
-    keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-    keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-    keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-    keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+    this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    this.keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+    this.keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+    this.keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+    this.keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+    this.keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+    this.keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+    this.keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+    this.keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+    this.keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     //adding SOUNDS
     cursor=this.sound.add('cursor',{volume: 0.4})
     wrong=this.sound.add('wrong',{volume: 0.4})
@@ -414,7 +447,7 @@ lionScene.create=function(){
         `)
     }
 
-    keyW.on('down', pressWfunction)
+    this.keyW.on('down', pressWfunction)
     
     pressSfunction = function() { 
         eval(`
@@ -432,10 +465,11 @@ lionScene.create=function(){
         `)
     }
 
-    keyS.on('down', pressSfunction);
+    this.keyS.on('down', pressSfunction);
 
     //tap A and D to change dial
-    pressAfunction = function(event) { 
+    this.keyA.on('down', function(event) { 
+        console.log('lionA')
         if(tween1W.isPlaying() || tween1S.isPlaying() || tween2W.isPlaying() || tween2S.isPlaying() || tween3W.isPlaying() || tween3S.isPlaying()){
             return;
         }
@@ -448,11 +482,10 @@ lionScene.create=function(){
             selectedDial-=1
         }
         eval(`dial${selectedDial}.tint=${lightTint}`) //highlight new dial
-    }
-
-    keyA.on('down', pressAfunction);
-
-    pressDfunction = function(event) { 
+        
+    });
+    this.keyD.on('down', function(event) { 
+        console.log('lionD')
         if(tween1W.isPlaying() || tween1S.isPlaying() || tween2W.isPlaying() || tween2S.isPlaying() || tween3W.isPlaying() || tween3S.isPlaying()){
             return;
         }
@@ -465,24 +498,22 @@ lionScene.create=function(){
             selectedDial+=1
         }
         eval(`dial${selectedDial}.tint=${lightTint}`) //highlight new dial
-    }
-
-    keyD.on('down', pressDfunction);
+    });
 
 
     //extra key inputs emulate
-    keyUp.on('down', function(event) {
-        keyW.emit('down', event);
-    });
-    keyDown.on('down', function(event) {
-        keyS.emit('down', event);
-    });
-    keyLeft.on('down', function(event) {
-        keyA.emit('down', event);
-    });
-    keyRight.on('down', function(event) {
-        keyD.emit('down', event);
-    });
+    this.keyUp.on('down', function(event) {
+        this.keyW.emit('down', event);
+    },this);
+    this.keyDown.on('down', function(event) {
+        this.keyS.emit('down', event);
+    },this);
+    this.keyLeft.on('down', function(event) {
+        this.keyA.emit('down', event);
+    },this);
+    this.keyRight.on('down', function(event) {
+        this.keyD.emit('down', event);
+    },this);
 
     this.input.on('pointerdown', function(pointer) {
 
@@ -492,34 +523,48 @@ lionScene.create=function(){
                 this.btnA,
                 this.btnS,
                 this.btnD,
-                this.btnF
+                this.btnF,
+                resetButton,
+                homeButton,
+                reloadButton,
+                gauntletButton
             ], this.cameras.main).length > 0
         ) {
             return; // Clicked on a virtual button
         }
 
-        keyF.emit('down', pointer);
+        this.keyF.emit('down', pointer);
 
     }, this);
 
     //TOUCHSCREEN CONTROLS
     this.btnW = this.add.circle(230, 350, 80, 0xffffff, 0.3).setInteractive();
+    this.add.text(230, 350, "W", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     this.btnS = this.add.circle(230, 530, 80, 0xffffff, 0.3).setInteractive();
-
+    this.add.text(  230, 530, "S", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     this.btnA = this.add.circle(this.scale.width - 300, 530, 80, 0xffffff, 0.3).setInteractive();
+    this.add.text(this.scale.width - 300, 530, "A", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     this.btnD = this.add.circle(this.scale.width - 120, 530, 80, 0xffffff, 0.3).setInteractive();
+    this.add.text(this.scale.width - 120, 530, "D", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     this.btnF = this.add.circle(this.scale.width - 120, 230, 60, 0xffffff, 0.3).setInteractive();
+    this.add.text(this.scale.width - 120, 230, "F", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     //EMULATE WASD AND F INPUTS
-    this.btnW.on('pointerdown', () => keyW.emit('down'));
-    this.btnA.on('pointerdown', () => keyA.emit('down'));
-    this.btnS.on('pointerdown', () => keyS.emit('down'));
-    this.btnD.on('pointerdown', () => keyD.emit('down'));
-    this.btnF.on('pointerdown', () => keyF.emit('down'));
+    this.btnW.on('pointerdown', () => this.keyW.emit('down'));
+    this.btnA.on('pointerdown', () => this.keyA.emit('down'));
+    this.btnS.on('pointerdown', () => this.keyS.emit('down'));
+    this.btnD.on('pointerdown', () => this.keyD.emit('down'));
+    this.btnF.on('pointerdown', () => this.keyF.emit('down'));
 
     //Q E , or F or left click to confirm solution
     completedTime=0
     timerStopped=false
-    keyQ.on('down',function(event){
+    this.keyQ.on('down',function(event){
+        this.keyF.emit('down', event);
+    },this);
+    this.keyE.on('down',function(event){
+        this.keyF.emit('down', event);
+    },this);
+    this.keyF.on('down',function(event){
         //check if any input was dropped (numbers are not whole)
         if(dial1Num % 1 != 0 ||dial2Num % 1 != 0 ||dial3Num % 1 != 0){
             //after error message, reload page
@@ -534,113 +579,12 @@ lionScene.create=function(){
             //after correct message, reload page
             timerStopped=true
             completedTime=timedEvent.getElapsedSeconds().toFixed(3);
-            setTimeout(function(){
-                game.scene.start('lion')
-            },1500)
-            lionScene.sound.play('cursor', { volume: 0.4, seek: 0.65});
-            //show text/update pb
-            if(LionPBTime!=null){
-                //if pb'd
-                console.log(LionPBTime)
-                console.log(completedTime)
-                if(parseFloat(completedTime)<parseFloat(LionPBTime)){
-                    text.setText(`New PB by ${(LionPBTime-completedTime).toFixed(2)}s! ${completedTime} seconds!`);
-                    text.setFill('#00FF00');
-                    LionPBTime=completedTime
-                    localStorage.setItem('LionPBTime', LionPBTime);
-                //if no pb
+            setTimeout(()=>{
+                if (gauntletMode) {
+                    this.scene.start('unicorn');
                 }else{
-                    text.setText(`Correct! ${completedTime} seconds!`);
+                    this.scene.start('lion')
                 }
-            //set new pb (no previous pb)
-            }else{
-                LionPBTime=completedTime
-                localStorage.setItem('LionPBTime', LionPBTime);
-                text.setText(`New PB: ${completedTime} seconds!`);
-                text.setFill('#00FF00');
-            }
-        }else{
-            //after 'wrong' message, revert to normal
-            setTimeout(function(){
-                text.setText('Lion Leaf Bird');
-                text.setFill('#FFFFFF');
-            },700)
-            text.setText('Wrong!') 
-            text.setFill('#FF0000');
-            lionScene.sound.play('wrong', { volume: 0.4});
-            shake.shake()
-        }
-    })
-    keyE.on('down',function(event){
-        //check if any input was dropped (numbers are not whole)
-        if(dial1Num % 1 != 0 ||dial2Num % 1 != 0 ||dial3Num % 1 != 0){
-            //after error message, reload page
-            setTimeout(function(){
-                game.scene.start('lion')
-            },1500)
-            lionScene.sound.play('cursor', { volume: 0.4, seek: 0.65});
-            text.setText(`You're inputting too fast! Restarting!`);
-            text.setFill('#FF0000');
-        //then check for correct solution
-        }else if((dial1Num==0 || dial1Num==6)&&(dial2Num==0||dial2Num==6) && (dial3Num==0||dial3Num==6)){
-            //after correct message, reload page
-            timerStopped=true
-            completedTime=timedEvent.getElapsedSeconds().toFixed(3);
-            setTimeout(function(){
-                game.scene.start('lion')
-            },1500)
-            lionScene.sound.play('cursor', { volume: 0.4, seek: 0.65});
-            //show text/update pb
-            if(LionPBTime!=null){
-                //if pb'd
-                console.log(LionPBTime)
-                console.log(completedTime)
-                if(parseFloat(completedTime)<parseFloat(LionPBTime)){
-                    text.setText(`New PB by ${(LionPBTime-completedTime).toFixed(2)}s! ${completedTime} seconds!`);
-                    text.setFill('#00FF00');
-                    LionPBTime=completedTime
-                    localStorage.setItem('LionPBTime', LionPBTime);
-                //if no pb
-                }else{
-                    text.setText(`Correct! ${completedTime} seconds!`);
-                }
-            //set new pb (no previous pb)
-            }else{
-                LionPBTime=completedTime
-                localStorage.setItem('LionPBTime', LionPBTime);
-                text.setText(`New PB: ${completedTime} seconds!`);
-                text.setFill('#00FF00');
-            }
-        }else{
-            //after 'wrong' message, revert to normal
-            setTimeout(function(){
-                text.setText('Lion Leaf Bird');
-                text.setFill('#FFFFFF');
-            },700)
-            text.setText('Wrong!') 
-            text.setFill('#FF0000');
-            lionScene.sound.play('wrong', { volume: 0.4});
-            shake.shake()
-        }
-    })
-
-    keyF.on('down',function(event){
-        //check if any input was dropped (numbers are not whole)
-        if(dial1Num % 1 != 0 ||dial2Num % 1 != 0 ||dial3Num % 1 != 0){
-            //after error message, reload page
-            setTimeout(function(){
-                game.scene.start('lion')
-            },1500)
-            lionScene.sound.play('cursor', { volume: 0.4, seek: 0.65});
-            text.setText(`You're inputting too fast! Restarting!`);
-            text.setFill('#FF0000');
-        //then check for correct solution
-        }else if((dial1Num==0 || dial1Num==6)&&(dial2Num==0||dial2Num==6) && (dial3Num==0||dial3Num==6)){
-            //after correct message, reload page
-            timerStopped=true
-            completedTime=timedEvent.getElapsedSeconds().toFixed(3);
-            setTimeout(function(){
-                game.scene.start('lion')
             },1500)
             lionScene.sound.play('cursor', { volume: 0.4, seek: 0.65});
             //show text/update pb
@@ -675,14 +619,14 @@ lionScene.create=function(){
             lionScene.sound.play('wrong', { volume: 0.4});
             shake.shake()
         }
-    })
+    },this)
 
     //press R to reload page
-    keyR.on('down',function(event){
+    this.keyR.on('down',function(event){
         game.scene.start('lion')
     })
     //press P to clear PB and reload page
-    keyP.on('down',function(event){
+    this.keyP.on('down',function(event){
         localStorage.removeItem("LionPBTime");
         game.scene.start('lion')
     })
@@ -734,7 +678,7 @@ lionScene.update=function(){
     dial1.y=970-dial1Num*symbHeight
     dial2.y=970-dial2Num*symbHeight
     dial3.y=970-dial3Num*symbHeight
-    console.log(`${dial1Num}         ${dial2Num}        ${dial3Num}`)
+    // console.log(`${dial1Num}         ${dial2Num}        ${dial3Num}`)
     //add timer
     if(timerStopped){
         timerText.setText(`Timer: ${completedTime}`)
@@ -767,6 +711,7 @@ unicornScene.preload=function(){
 
 //create
 unicornScene.create=function(){
+    console.log(this.scene.isActive("lion"));
     let { width, height } = this.sys.game.canvas; //get width and height of game window
     //set colours for tints
     var lightTint=0xfaf9f6
@@ -781,6 +726,21 @@ unicornScene.create=function(){
     dial3=this.add.sprite((width/20)*12,970-dial3Num*symbHeight,`unicorn3`).setScale(1.7)
 
     backgroundMask=this.add.sprite(0,0,`background`).setOrigin(0, 0)
+    gauntletButton = this.add.text(width-300, 100, `Gauntlet Mode:\n        ${gauntletMode ? 'ON' : 'OFF'}`,{backgroundColor: '#ae1d1d', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 24, }).setOrigin(0,1)
+        .setPadding(10)
+        .setInteractive( { useHandCursor: true })
+        .on('pointerover',function(pointer){
+            gauntletButton.setScale(1.05);
+        })
+        .on('pointerout',function(pointer){
+            gauntletButton.setScale(1);
+        })
+	    .on('pointerdown', function(){
+            gauntletMode = !gauntletMode
+            gauntletButton.setText(
+            `Gauntlet Mode:\n        ${gauntletMode ? 'ON' : 'OFF'}`)
+        },this)
+
     //back to home button
     homeButton = this.add.text(0, 720, 'BACK',{backgroundColor: '#4CAF50', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 54, }).setOrigin(0,1)
         .setPadding(10)
@@ -841,19 +801,19 @@ unicornScene.create=function(){
     dial2.tint=darkTint //dull the others
     dial3.tint=darkTint
     //keyboard inputs
-    keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-    keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-    keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-    keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-    keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
-    keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
-    keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
-    keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-    keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
-    keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-    keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-    keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-    keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+    this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    this.keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+    this.keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+    this.keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+    this.keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+    this.keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+    this.keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+    this.keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+    this.keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+    this.keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     //adding SOUNDS
     cursor=this.sound.add('cursor',{volume: 0.4})
     wrong=this.sound.add('wrong',{volume: 0.4})
@@ -879,7 +839,7 @@ unicornScene.create=function(){
         return false;
     }}
     //on W or S press, go up and down each dial
-    keyW.on('down', function(event) { 
+    this.keyW.on('down', function(event) { 
         eval(`
         if(dial${selectedDial}Num>5){
             dial${selectedDial}Num=0
@@ -895,7 +855,7 @@ unicornScene.create=function(){
         `)
     });
     
-    keyS.on('down', function(event) { 
+    this.keyS.on('down', function(event) { 
         eval(`
         if(dial${selectedDial}Num<=0){
             dial${selectedDial}Num=6
@@ -911,7 +871,8 @@ unicornScene.create=function(){
         `)
     });
     //tap A and D to change dial
-    keyA.on('down', function(event) { 
+    this.keyA.on('down', function(event) { 
+        console.log('unicornA');
         if(tween1W.isPlaying() || tween1S.isPlaying() || tween2W.isPlaying() || tween2S.isPlaying() || tween3W.isPlaying() || tween3S.isPlaying()){
             return;
         }
@@ -926,7 +887,8 @@ unicornScene.create=function(){
         eval(`dial${selectedDial}.tint=${lightTint}`) //highlight new dial
         
     });
-    keyD.on('down', function(event) { 
+    this.keyD.on('down', function(event) { 
+        console.log('unicornD');
         if(tween1W.isPlaying() || tween1S.isPlaying() || tween2W.isPlaying() || tween2S.isPlaying() || tween3W.isPlaying() || tween3S.isPlaying()){
             return;
         }
@@ -940,18 +902,18 @@ unicornScene.create=function(){
         }
         eval(`dial${selectedDial}.tint=${lightTint}`) //highlight new dial
     });
-    keyUp.on('down', function(event) {
-        keyW.emit('down', event);
-    });
-    keyDown.on('down', function(event) {
-        keyS.emit('down', event);
-    });
-    keyLeft.on('down', function(event) {
-        keyA.emit('down', event);
-    });
-    keyRight.on('down', function(event) {
-        keyD.emit('down', event);
-    });
+    this.keyUp.on('down', function(event) {
+        this.keyW.emit('down', event);
+    },this);
+    this.keyDown.on('down', function(event) {
+        this.keyS.emit('down', event);
+    },this);
+    this.keyLeft.on('down', function(event) {
+        this.keyA.emit('down', event);
+    },this);
+    this.keyRight.on('down', function(event) {
+        this.keyD.emit('down', event);
+    },this);
     this.input.on('pointerdown', function(pointer) {
 
         if (
@@ -960,39 +922,53 @@ unicornScene.create=function(){
                 this.btnA,
                 this.btnS,
                 this.btnD,
-                this.btnF
+                this.btnF,
+                resetButton,
+                homeButton,
+                reloadButton,
+                gauntletButton
             ], this.cameras.main).length > 0
         ) {
             return; // Clicked on a virtual button
         }
 
-        keyF.emit('down', pointer);
+        this.keyF.emit('down', pointer);
 
     }, this);
 
     //TOUCHSCREEN CONTROLS
     this.btnW = this.add.circle(230, 350, 80, 0xffffff, 0.3).setInteractive();
+    this.add.text(230, 350, "W", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     this.btnS = this.add.circle(230, 530, 80, 0xffffff, 0.3).setInteractive();
-
+    this.add.text(  230, 530, "S", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     this.btnA = this.add.circle(this.scale.width - 300, 530, 80, 0xffffff, 0.3).setInteractive();
+    this.add.text(this.scale.width - 300, 530, "A", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     this.btnD = this.add.circle(this.scale.width - 120, 530, 80, 0xffffff, 0.3).setInteractive();
+    this.add.text(this.scale.width - 120, 530, "D", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     this.btnF = this.add.circle(this.scale.width - 120, 230, 60, 0xffffff, 0.3).setInteractive();
+    this.add.text(this.scale.width - 120, 230, "F", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     //EMULATE WASD AND F INPUTS
-    this.btnW.on('pointerdown', () => keyW.emit('down'));
-    this.btnA.on('pointerdown', () => keyA.emit('down'));
-    this.btnS.on('pointerdown', () => keyS.emit('down'));
-    this.btnD.on('pointerdown', () => keyD.emit('down'));
-    this.btnF.on('pointerdown', () => keyF.emit('down'));
+    this.btnW.on('pointerdown', () => this.keyW.emit('down'));
+    this.btnA.on('pointerdown', () => this.keyA.emit('down'));
+    this.btnS.on('pointerdown', () => this.keyS.emit('down'));
+    this.btnD.on('pointerdown', () => this.keyD.emit('down'));
+    this.btnF.on('pointerdown', () => this.keyF.emit('down'));
 
     //Q E , or F to confirm solution
     completedTime=0
     timerStopped=false
-    keyQ.on('down',function(event){
+    this.keyQ.on('down',function(event){
+        this.keyF.emit('down', event);
+    },this);
+    this.keyE.on('down',function(event){
+        this.keyF.emit('down', event);
+    },this);
+    this.keyF.on('down',function(event){
         //check if any input was dropped (numbers are not whole)
         if(dial1Num % 1 != 0 ||dial2Num % 1 != 0 ||dial3Num % 1 != 0){
             //after error message, reload page
             setTimeout(function(){
-                game.scene.start('unicorn');
+                game.scene.start('unicorn')
             },1500)
             unicornScene.sound.play('cursor', { volume: 0.4, seek: 0.65});
             text.setText(`You're inputting too fast! Restarting!`);
@@ -1002,8 +978,12 @@ unicornScene.create=function(){
             //after correct message, reload page
             timerStopped=true
             completedTime=timedEvent.getElapsedSeconds().toFixed(3);
-            setTimeout(function(){
-                game.scene.start('unicorn');
+            setTimeout(()=>{
+                if (gauntletMode) {
+                    this.scene.start('maiden');
+                }else{
+                    this.scene.start('unicorn')
+                }
             },1500)
             unicornScene.sound.play('cursor', { volume: 0.4, seek: 0.65});
             //show text/update pb
@@ -1038,119 +1018,14 @@ unicornScene.create=function(){
             unicornScene.sound.play('wrong', { volume: 0.4});
             shake.shake()
         }
-    })
-    keyE.on('down',function(event){
-        //check if any input was dropped (numbers are not whole)
-        if(dial1Num % 1 != 0 ||dial2Num % 1 != 0 ||dial3Num % 1 != 0){
-            //after error message, reload page
-            setTimeout(function(){
-                game.scene.start('unicorn')
-            },1500)
-            unicornScene.sound.play('cursor', { volume: 0.4, seek: 0.65});
-            text.setText(`You're inputting too fast! Restarting!`);
-            text.setFill('#FF0000');
-        //then check for correct solution
-        }else if((dial1Num==0 || dial1Num==6)&&(dial2Num==0||dial2Num==6) && (dial3Num==0||dial3Num==6)){
-            //after correct message, reload page
-            timerStopped=true
-            completedTime=timedEvent.getElapsedSeconds().toFixed(3);
-            setTimeout(function(){
-                game.scene.start('unicorn')
-            },1500)
-            unicornScene.sound.play('cursor', { volume: 0.4, seek: 0.65});
-            //show text/update pb
-            if(UnicornPBTime!=null){
-                //if pb'd
-                console.log(UnicornPBTime)
-                console.log(completedTime)
-                if(parseFloat(completedTime)<parseFloat(UnicornPBTime)){
-                    text.setText(`New PB by ${(UnicornPBTime-completedTime).toFixed(2)}s! ${completedTime} seconds!`);
-                    text.setFill('#00FF00');
-                    UnicornPBTime=completedTime
-                    localStorage.setItem('UnicornPBTime', UnicornPBTime);
-                //if no pb
-                }else{
-                    text.setText(`Correct! ${completedTime} seconds!`);
-                }
-            //set new pb (no previous pb)
-            }else{
-                UnicornPBTime=completedTime
-                localStorage.setItem('UnicornPBTime', UnicornPBTime);
-                text.setText(`New PB: ${completedTime} seconds!`);
-                text.setFill('#00FF00');
-            }
-        }else{
-            //after 'wrong' message, revert to normal
-            setTimeout(function(){
-                text.setText('Fish Scorpion Loot');
-                text.setFill('#FFFFFF');
-            },700)
-            text.setText('Wrong!') 
-            text.setFill('#FF0000');
-            unicornScene.sound.play('wrong', { volume: 0.4});
-            shake.shake()
-        }
-    })
-    
-    keyF.on('down',function(event){
-        //check if any input was dropped (numbers are not whole)
-        if(dial1Num % 1 != 0 ||dial2Num % 1 != 0 ||dial3Num % 1 != 0){
-            //after error message, reload page
-            setTimeout(function(){
-                game.scene.start('unicorn')
-            },1500)
-            unicornScene.sound.play('cursor', { volume: 0.4, seek: 0.65});
-            text.setText(`You're inputting too fast! Restarting!`);
-            text.setFill('#FF0000');
-        //then check for correct solution
-        }else if((dial1Num==0 || dial1Num==6)&&(dial2Num==0||dial2Num==6) && (dial3Num==0||dial3Num==6)){
-            //after correct message, reload page
-            timerStopped=true
-            completedTime=timedEvent.getElapsedSeconds().toFixed(3);
-            setTimeout(function(){
-                game.scene.start('unicorn')
-            },1500)
-            unicornScene.sound.play('cursor', { volume: 0.4, seek: 0.65});
-            //show text/update pb
-            if(UnicornPBTime!=null){
-                //if pb'd
-                console.log(UnicornPBTime)
-                console.log(completedTime)
-                if(parseFloat(completedTime)<parseFloat(UnicornPBTime)){
-                    text.setText(`New PB by ${(UnicornPBTime-completedTime).toFixed(2)}s! ${completedTime} seconds!`);
-                    text.setFill('#00FF00');
-                    UnicornPBTime=completedTime
-                    localStorage.setItem('UnicornPBTime', UnicornPBTime);
-                //if no pb
-                }else{
-                    text.setText(`Correct! ${completedTime} seconds!`);
-                }
-            //set new pb (no previous pb)
-            }else{
-                UnicornPBTime=completedTime
-                localStorage.setItem('UnicornPBTime', UnicornPBTime);
-                text.setText(`New PB: ${completedTime} seconds!`);
-                text.setFill('#00FF00');
-            }
-        }else{
-            //after 'wrong' message, revert to normal
-            setTimeout(function(){
-                text.setText('Fish Scorpion Loot');
-                text.setFill('#FFFFFF');
-            },700)
-            text.setText('Wrong!') 
-            text.setFill('#FF0000');
-            unicornScene.sound.play('wrong', { volume: 0.4});
-            shake.shake()
-        }
-    })
+    },this)
 
     //press R to reload page
-    keyR.on('down',function(event){
+    this.keyR.on('down',function(event){
         game.scene.start('unicorn')
     })
     //press P to clear PB and reload page
-    keyP.on('down',function(event){
+    this.keyP.on('down',function(event){
         localStorage.removeItem("UnicornPBTime");
         game.scene.start('unicorn')
     })
@@ -1250,6 +1125,21 @@ maidenScene.create=function(){
     dial3=this.add.sprite((width/20)*12,970-dial3Num*symbHeight,`maiden3`).setScale(1.7)
 
     backgroundMask=this.add.sprite(0,0,`background`).setOrigin(0, 0)
+    gauntletButton = this.add.text(width-300, 100, `Gauntlet Mode:\n        ${gauntletMode ? 'ON' : 'OFF'}`,{backgroundColor: '#ae1d1d', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 24, }).setOrigin(0,1)
+        .setPadding(10)
+        .setInteractive( { useHandCursor: true })
+        .on('pointerover',function(pointer){
+            gauntletButton.setScale(1.05);
+        })
+        .on('pointerout',function(pointer){
+            gauntletButton.setScale(1);
+        })
+	    .on('pointerdown', function(){
+            gauntletMode = !gauntletMode
+            gauntletButton.setText(
+            `Gauntlet Mode:\n        ${gauntletMode ? 'ON' : 'OFF'}`)
+        },this)
+
     //back to home button
     homeButton = this.add.text(0, 720, 'BACK',{backgroundColor: '#4CAF50', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 54, }).setOrigin(0,1)
         .setPadding(10)
@@ -1310,19 +1200,19 @@ maidenScene.create=function(){
     dial2.tint=darkTint //dull the others
     dial3.tint=darkTint
     //keyboard inputs
-    keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-    keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-    keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-    keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-    keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
-    keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
-    keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
-    keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-    keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
-    keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-    keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-    keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-    keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+    this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    this.keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+    this.keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+    this.keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+    this.keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+    this.keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+    this.keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+    this.keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+    this.keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+    this.keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     //adding SOUNDS
     cursor=this.sound.add('cursor',{volume: 0.4})
     wrong=this.sound.add('wrong',{volume: 0.4})
@@ -1348,7 +1238,7 @@ maidenScene.create=function(){
         return false;
     }}
     //on W or S press, go up and down each dial
-    keyW.on('down', function(event) { 
+    this.keyW.on('down', function(event) { 
         eval(`
         if(dial${selectedDial}Num>5){
             dial${selectedDial}Num=0
@@ -1364,7 +1254,7 @@ maidenScene.create=function(){
         `)
     });
     
-    keyS.on('down', function(event) { 
+    this.keyS.on('down', function(event) { 
         eval(`
         if(dial${selectedDial}Num<=0){
             dial${selectedDial}Num=6
@@ -1380,7 +1270,7 @@ maidenScene.create=function(){
         `)
     });
     //tap A and D to change dial
-    keyA.on('down', function(event) { 
+    this.keyA.on('down', function(event) { 
         if(tween1W.isPlaying() || tween1S.isPlaying() || tween2W.isPlaying() || tween2S.isPlaying() || tween3W.isPlaying() || tween3S.isPlaying()){
             return;
         }
@@ -1395,7 +1285,7 @@ maidenScene.create=function(){
         eval(`dial${selectedDial}.tint=${lightTint}`) //highlight new dial
         
     });
-    keyD.on('down', function(event) { 
+    this.keyD.on('down', function(event) { 
         if(tween1W.isPlaying() || tween1S.isPlaying() || tween2W.isPlaying() || tween2S.isPlaying() || tween3W.isPlaying() || tween3S.isPlaying()){
             return;
         }
@@ -1409,18 +1299,18 @@ maidenScene.create=function(){
         }
         eval(`dial${selectedDial}.tint=${lightTint}`) //highlight new dial
     });
-    keyUp.on('down', function(event) {
-        keyW.emit('down', event);
-    });
-    keyDown.on('down', function(event) {
-        keyS.emit('down', event);
-    });
-    keyLeft.on('down', function(event) {
-        keyA.emit('down', event);
-    });
-    keyRight.on('down', function(event) {
-        keyD.emit('down', event);
-    });
+    this.keyUp.on('down', function(event) {
+        this.keyW.emit('down', event);
+    },this);
+    this.keyDown.on('down', function(event) {
+        this.keyS.emit('down', event);
+    },this);
+    this.keyLeft.on('down', function(event) {
+        this.keyA.emit('down', event);
+    },this);
+    this.keyRight.on('down', function(event) {
+        this.keyD.emit('down', event);
+    },this);
     this.input.on('pointerdown', function(pointer) {
 
         if (
@@ -1429,139 +1319,49 @@ maidenScene.create=function(){
                 this.btnA,
                 this.btnS,
                 this.btnD,
-                this.btnF
+                this.btnF,
+                resetButton,
+                homeButton,
+                reloadButton,
+                gauntletButton
             ], this.cameras.main).length > 0
         ) {
             return; // Clicked on a virtual button
         }
 
-        keyF.emit('down', pointer);
+        this.keyF.emit('down', pointer);
 
     }, this);
 
     //TOUCHSCREEN CONTROLS
     this.btnW = this.add.circle(230, 350, 80, 0xffffff, 0.3).setInteractive();
+    this.add.text(230, 350, "W", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     this.btnS = this.add.circle(230, 530, 80, 0xffffff, 0.3).setInteractive();
-
+    this.add.text(  230, 530, "S", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     this.btnA = this.add.circle(this.scale.width - 300, 530, 80, 0xffffff, 0.3).setInteractive();
+    this.add.text(this.scale.width - 300, 530, "A", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     this.btnD = this.add.circle(this.scale.width - 120, 530, 80, 0xffffff, 0.3).setInteractive();
+    this.add.text(this.scale.width - 120, 530, "D", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     this.btnF = this.add.circle(this.scale.width - 120, 230, 60, 0xffffff, 0.3).setInteractive();
+    this.add.text(this.scale.width - 120, 230, "F", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     //EMULATE WASD AND F INPUTS
-    this.btnW.on('pointerdown', () => keyW.emit('down'));
-    this.btnA.on('pointerdown', () => keyA.emit('down'));
-    this.btnS.on('pointerdown', () => keyS.emit('down'));
-    this.btnD.on('pointerdown', () => keyD.emit('down'));
-    this.btnF.on('pointerdown', () => keyF.emit('down'));
+    this.btnW.on('pointerdown', () => this.keyW.emit('down'));
+    this.btnA.on('pointerdown', () => this.keyA.emit('down'));
+    this.btnS.on('pointerdown', () => this.keyS.emit('down'));
+    this.btnD.on('pointerdown', () => this.keyD.emit('down'));
+    this.btnF.on('pointerdown', () => this.keyF.emit('down'));
 
     //Q E , or F to confirm solution
     completedTime=0
     timerStopped=false
-    keyQ.on('down',function(event){
-        //check if any input was dropped (numbers are not whole)
-        if(dial1Num % 1 != 0 ||dial2Num % 1 != 0 ||dial3Num % 1 != 0){
-            //after error message, reload page
-            setTimeout(function(){
-                game.scene.start('maiden');
-            },1500)
-            maidenScene.sound.play('cursor', { volume: 0.4, seek: 0.65});
-            text.setText(`You're inputting too fast! Restarting!`);
-            text.setFill('#FF0000');
-        //then check for correct solution
-        }else if((dial1Num==0 || dial1Num==6)&&(dial2Num==0||dial2Num==6) && (dial3Num==0||dial3Num==6)){
-            //after correct message, reload page
-            timerStopped=true
-            completedTime=timedEvent.getElapsedSeconds().toFixed(3);
-            setTimeout(function(){
-                game.scene.start('maiden');
-            },1500)
-            maidenScene.sound.play('cursor', { volume: 0.4, seek: 0.65});
-            //show text/update pb
-            if(MaidenPBTime!=null){
-                //if pb'd
-                console.log(MaidenPBTime)
-                console.log(completedTime)
-                if(parseFloat(completedTime)<parseFloat(MaidenPBTime)){
-                    text.setText(`New PB by ${(MaidenPBTime-completedTime).toFixed(2)}s! ${completedTime} seconds!`);
-                    text.setFill('#00FF00');
-                    MaidenPBTime=completedTime
-                    localStorage.setItem('MaidenPBTime', MaidenPBTime);
-                //if no pb
-                }else{
-                    text.setText(`Correct! ${completedTime} seconds!`);
-                }
-            //set new pb (no previous pb)
-            }else{
-                MaidenPBTime=completedTime
-                localStorage.setItem('MaidenPBTime', MaidenPBTime);
-                text.setText(`New PB: ${completedTime} seconds!`);
-                text.setFill('#00FF00');
-            }
-        }else{
-            //after 'wrong' message, revert to normal
-            setTimeout(function(){
-                text.setText('Woman Bow Snake');
-                text.setFill('#FFFFFF');
-            },700)
-            text.setText('Wrong!') 
-            text.setFill('#FF0000');
-            maidenScene.sound.play('wrong', { volume: 0.4});
-            shake.shake()
-        }
-    })
-    keyE.on('down',function(event){
-        //check if any input was dropped (numbers are not whole)
-        if(dial1Num % 1 != 0 ||dial2Num % 1 != 0 ||dial3Num % 1 != 0){
-            //after error message, reload page
-            setTimeout(function(){
-                game.scene.start('maiden')
-            },1500)
-            maidenScene.sound.play('cursor', { volume: 0.4, seek: 0.65});
-            text.setText(`You're inputting too fast! Restarting!`);
-            text.setFill('#FF0000');
-        //then check for correct solution
-        }else if((dial1Num==0 || dial1Num==6)&&(dial2Num==0||dial2Num==6) && (dial3Num==0||dial3Num==6)){
-            //after correct message, reload page
-            timerStopped=true
-            completedTime=timedEvent.getElapsedSeconds().toFixed(3);
-            setTimeout(function(){
-                game.scene.start('maiden')
-            },1500)
-            maidenScene.sound.play('cursor', { volume: 0.4, seek: 0.65});
-            //show text/update pb
-            if(MaidenPBTime!=null){
-                //if pb'd
-                console.log(MaidenPBTime)
-                console.log(completedTime)
-                if(parseFloat(completedTime)<parseFloat(MaidenPBTime)){
-                    text.setText(`New PB by ${(MaidenPBTime-completedTime).toFixed(2)}s! ${completedTime} seconds!`);
-                    text.setFill('#00FF00');
-                    MaidenPBTime=completedTime
-                    localStorage.setItem('MaidenPBTime', MaidenPBTime);
-                //if no pb
-                }else{
-                    text.setText(`Correct! ${completedTime} seconds!`);
-                }
-            //set new pb (no previous pb)
-            }else{
-                MaidenPBTime=completedTime
-                localStorage.setItem('MaidenPBTime', MaidenPBTime);
-                text.setText(`New PB: ${completedTime} seconds!`);
-                text.setFill('#00FF00');
-            }
-        }else{
-            //after 'wrong' message, revert to normal
-            setTimeout(function(){
-                text.setText('Woman Bow Snake');
-                text.setFill('#FFFFFF');
-            },700)
-            text.setText('Wrong!') 
-            text.setFill('#FF0000');
-            maidenScene.sound.play('wrong', { volume: 0.4});
-            shake.shake()
-        }
-    })
+    this.keyQ.on('down',function(event){
+        this.keyF.emit('down', event);
+    },this);
+    this.keyE.on('down',function(event){
+        this.keyF.emit('down', event);
+    },this);
     
-    keyF.on('down',function(event){
+    this.keyF.on('down',function(event){
         //check if any input was dropped (numbers are not whole)
         if(dial1Num % 1 != 0 ||dial2Num % 1 != 0 ||dial3Num % 1 != 0){
             //after error message, reload page
@@ -1576,8 +1376,12 @@ maidenScene.create=function(){
             //after correct message, reload page
             timerStopped=true
             completedTime=timedEvent.getElapsedSeconds().toFixed(3);
-            setTimeout(function(){
-                game.scene.start('maiden')
+            setTimeout(()=>{
+                if (gauntletMode) {
+                    this.scene.start('lion');
+                }else{
+                    this.scene.start('maiden')
+                }
             },1500)
             maidenScene.sound.play('cursor', { volume: 0.4, seek: 0.65});
             //show text/update pb
@@ -1612,14 +1416,14 @@ maidenScene.create=function(){
             maidenScene.sound.play('wrong', { volume: 0.4});
             shake.shake()
         }
-    })
+    },this)
 
     //press R to reload page
-    keyR.on('down',function(event){
+    this.keyR.on('down',function(event){
         game.scene.start('maiden')
     })
     //press P to clear PB and reload page
-    keyP.on('down',function(event){
+    this.keyP.on('down',function(event){
         localStorage.removeItem("MaidenPBTime");
         game.scene.start('maiden')
     })
@@ -1724,6 +1528,21 @@ lion2Scene.create=function(){
     
     //masks rest of dials (anything added before this line will be covered)
     backgroundMask=this.add.sprite(0,0,`background`).setOrigin(0, 0)
+
+    gauntletButton = this.add.text(width-300, 100, `Gauntlet Mode:\n        ${gauntletMode ? 'ON' : 'OFF'}`,{backgroundColor: '#ae1d1d', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 24, }).setOrigin(0,1)
+        .setPadding(10)
+        .setInteractive( { useHandCursor: true })
+        .on('pointerover',function(pointer){
+            gauntletButton.setScale(1.05);
+        })
+        .on('pointerout',function(pointer){
+            gauntletButton.setScale(1);
+        })
+	    .on('pointerdown', function(){
+            gauntletMode = !gauntletMode
+            gauntletButton.setText(
+            `Gauntlet Mode:\n        ${gauntletMode ? 'ON' : 'OFF'}`)
+        },this)
     //back to home button
     homeButton = this.add.text(0, 720, 'BACK',{backgroundColor: '#4CAF50', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 54, }).setOrigin(0,1)
         .setPadding(10)
@@ -1784,19 +1603,19 @@ lion2Scene.create=function(){
     dial2.tint=darkTint //dull the others
     dial3.tint=darkTint
     //keyboard inputs
-    keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-    keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-    keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-    keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-    keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
-    keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
-    keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
-    keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-    keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
-    keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-    keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-    keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-    keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+    this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    this.keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+    this.keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+    this.keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+    this.keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+    this.keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+    this.keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+    this.keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+    this.keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+    this.keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     //adding SOUNDS
     cursor=this.sound.add('cursor',{volume: 0.4})
     wrong=this.sound.add('wrong',{volume: 0.4})
@@ -1822,7 +1641,7 @@ lion2Scene.create=function(){
         return false;
     }}
     //on W or S press, go up and down each dial
-    keyW.on('down', function(event) { 
+    this.keyW.on('down', function(event) { 
         eval(`
         if(dial${selectedDial}Num>5){
             dial${selectedDial}Num=0
@@ -1838,7 +1657,7 @@ lion2Scene.create=function(){
         `)
     });
     
-    keyS.on('down', function(event) { 
+    this.keyS.on('down', function(event) { 
         eval(`
         if(dial${selectedDial}Num<=0){
             dial${selectedDial}Num=6
@@ -1854,7 +1673,7 @@ lion2Scene.create=function(){
         `)
     });
     //tap A and D to change dial
-    keyA.on('down', function(event) { 
+    this.keyA.on('down', function(event) { 
         if(tween1W.isPlaying() || tween1S.isPlaying() || tween2W.isPlaying() || tween2S.isPlaying() || tween3W.isPlaying() || tween3S.isPlaying()){
             return;
         }
@@ -1869,7 +1688,7 @@ lion2Scene.create=function(){
         eval(`dial${selectedDial}.tint=${lightTint}`) //highlight new dial
         
     });
-    keyD.on('down', function(event) { 
+    this.keyD.on('down', function(event) { 
         if(tween1W.isPlaying() || tween1S.isPlaying() || tween2W.isPlaying() || tween2S.isPlaying() || tween3W.isPlaying() || tween3S.isPlaying()){
             return;
         }
@@ -1883,18 +1702,18 @@ lion2Scene.create=function(){
         }
         eval(`dial${selectedDial}.tint=${lightTint}`) //highlight new dial
     });
-    keyUp.on('down', function(event) {
-        keyW.emit('down', event);
-    });
-    keyDown.on('down', function(event) {
-        keyS.emit('down', event);
-    });
-    keyLeft.on('down', function(event) {
-        keyA.emit('down', event);
-    });
-    keyRight.on('down', function(event) {
-        keyD.emit('down', event);
-    });
+    this.keyUp.on('down', function(event) {
+        this.keyW.emit('down', event);
+    },this);
+    this.keyDown.on('down', function(event) {
+        this.keyS.emit('down', event);
+    },this);
+    this.keyLeft.on('down', function(event) {
+        this.keyA.emit('down', event);
+    },this );
+    this.keyRight.on('down', function(event) {
+        this.keyD.emit('down', event);
+    },this);
     this.input.on('pointerdown', function(pointer) {
 
         if (
@@ -1903,139 +1722,49 @@ lion2Scene.create=function(){
                 this.btnA,
                 this.btnS,
                 this.btnD,
-                this.btnF
+                this.btnF,
+                resetButton,
+                homeButton,
+                reloadButton,
+                gauntletButton
             ], this.cameras.main).length > 0
         ) {
             return; // Clicked on a virtual button
         }
 
-        keyF.emit('down', pointer);
+        this.keyF.emit('down', pointer);
 
     }, this);
 
     //TOUCHSCREEN CONTROLS
     this.btnW = this.add.circle(230, 350, 80, 0xffffff, 0.3).setInteractive();
+    this.add.text(230, 350, "W", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     this.btnS = this.add.circle(230, 530, 80, 0xffffff, 0.3).setInteractive();
-
+    this.add.text(  230, 530, "S", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     this.btnA = this.add.circle(this.scale.width - 300, 530, 80, 0xffffff, 0.3).setInteractive();
+    this.add.text(this.scale.width - 300, 530, "A", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     this.btnD = this.add.circle(this.scale.width - 120, 530, 80, 0xffffff, 0.3).setInteractive();
+    this.add.text(this.scale.width - 120, 530, "D", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     this.btnF = this.add.circle(this.scale.width - 120, 230, 60, 0xffffff, 0.3).setInteractive();
+    this.add.text(this.scale.width - 120, 230, "F", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     //EMULATE WASD AND F INPUTS
-    this.btnW.on('pointerdown', () => keyW.emit('down'));
-    this.btnA.on('pointerdown', () => keyA.emit('down'));
-    this.btnS.on('pointerdown', () => keyS.emit('down'));
-    this.btnD.on('pointerdown', () => keyD.emit('down'));
-    this.btnF.on('pointerdown', () => keyF.emit('down'));
+    this.btnW.on('pointerdown', () => this.keyW.emit('down'));
+    this.btnA.on('pointerdown', () => this.keyA.emit('down'));
+    this.btnS.on('pointerdown', () => this.keyS.emit('down'));
+    this.btnD.on('pointerdown', () => this.keyD.emit('down'));
+    this.btnF.on('pointerdown', () => this.keyF.emit('down'));
 
     //Q E , or F to confirm solution
     completedTime=0
     timerStopped=false
-    keyQ.on('down',function(event){
-        //check if any input was dropped (numbers are not whole)
-        if(dial1Num % 1 != 0 ||dial2Num % 1 != 0 ||dial3Num % 1 != 0){
-            //after error message, reload page
-            setTimeout(function(){
-                game.scene.start('lion2')
-            },1500)
-            lion2Scene.sound.play('cursor', { volume: 0.4, seek: 0.65});
-            text.setText(`You're inputting too fast! Restarting!`);
-            text.setFill('#FF0000');
-        //then check for correct solution
-        }else if((dial1Num==0 || dial1Num==6)&&(dial2Num==0||dial2Num==6) && (dial3Num==0||dial3Num==6)){
-            //after correct message, reload page
-            timerStopped=true
-            completedTime=timedEvent.getElapsedSeconds().toFixed(3);
-            setTimeout(function(){
-                game.scene.start('lion2')
-            },1500)
-            lion2Scene.sound.play('cursor', { volume: 0.4, seek: 0.65});
-            //show text/update pb
-            if(Lion2PBTime!=null){
-                //if pb'd
-                console.log(Lion2PBTime)
-                console.log(completedTime)
-                if(parseFloat(completedTime)<parseFloat(Lion2PBTime)){
-                    text.setText(`New PB by ${(Lion2PBTime-completedTime).toFixed(2)}s! ${completedTime} seconds!`);
-                    text.setFill('#00FF00');
-                    Lion2PBTime=completedTime
-                    localStorage.setItem('Lion2PBTime', Lion2PBTime);
-                //if no pb
-                }else{
-                    text.setText(`Correct! ${completedTime} seconds!`);
-                }
-            //set new pb (no previous pb)
-            }else{
-                Lion2PBTime=completedTime
-                localStorage.setItem('Lion2PBTime', Lion2PBTime);
-                text.setText(`New PB: ${completedTime} seconds!`);
-                text.setFill('#00FF00');
-            }
-        }else{
-            //after 'wrong' message, revert to normal
-            setTimeout(function(){
-                text.setText('Crown Fire Bird');
-                text.setFill('#FFFFFF');
-            },700)
-            text.setText('Wrong!') 
-            text.setFill('#FF0000');
-            lion2Scene.sound.play('wrong', { volume: 0.4});
-            shake.shake()
-        }
-    })
-    keyE.on('down',function(event){
-        //check if any input was dropped (numbers are not whole)
-        if(dial1Num % 1 != 0 ||dial2Num % 1 != 0 ||dial3Num % 1 != 0){
-            //after error message, reload page
-            setTimeout(function(){
-                game.scene.start('lion2')
-            },1500)
-            lion2Scene.sound.play('cursor', { volume: 0.4, seek: 0.65});
-            text.setText(`You're inputting too fast! Restarting!`);
-            text.setFill('#FF0000');
-        //then check for correct solution
-        }else if((dial1Num==0 || dial1Num==6)&&(dial2Num==0||dial2Num==6) && (dial3Num==0||dial3Num==6)){
-            //after correct message, reload page
-            timerStopped=true
-            completedTime=timedEvent.getElapsedSeconds().toFixed(3);
-            setTimeout(function(){
-                game.scene.start('lion2')
-            },1500)
-            lion2Scene.sound.play('cursor', { volume: 0.4, seek: 0.65});
-            //show text/update pb
-            if(Lion2PBTime!=null){
-                //if pb'd
-                console.log(Lion2PBTime)
-                console.log(completedTime)
-                if(parseFloat(completedTime)<parseFloat(Lion2PBTime)){
-                    text.setText(`New PB by ${(Lion2PBTime-completedTime).toFixed(2)}s! ${completedTime} seconds!`);
-                    text.setFill('#00FF00');
-                    Lion2PBTime=completedTime
-                    localStorage.setItem('Lion2PBTime', Lion2PBTime);
-                //if no pb
-                }else{
-                    text.setText(`Correct! ${completedTime} seconds!`);
-                }
-            //set new pb (no previous pb)
-            }else{
-                Lion2PBTime=completedTime
-                localStorage.setItem('Lion2PBTime', Lion2PBTime);
-                text.setText(`New PB: ${completedTime} seconds!`);
-                text.setFill('#00FF00');
-            }
-        }else{
-            //after 'wrong' message, revert to normal
-            setTimeout(function(){
-                text.setText('Crown Fire Bird');
-                text.setFill('#FFFFFF');
-            },700)
-            text.setText('Wrong!') 
-            text.setFill('#FF0000');
-            lion2Scene.sound.play('wrong', { volume: 0.4});
-            shake.shake()
-        }
-    })
+    this.keyQ.on('down',function(event){
+        this.keyF.emit('down', event);
+    },this);
+    this.keyE.on('down',function(event){
+        this.keyF.emit('down', event);
+    },this);
 
-    keyF.on('down',function(event){
+    this.keyF.on('down',function(event){
         //check if any input was dropped (numbers are not whole)
         if(dial1Num % 1 != 0 ||dial2Num % 1 != 0 ||dial3Num % 1 != 0){
             //after error message, reload page
@@ -2050,8 +1779,12 @@ lion2Scene.create=function(){
             //after correct message, reload page
             timerStopped=true
             completedTime=timedEvent.getElapsedSeconds().toFixed(3);
-            setTimeout(function(){
-                game.scene.start('lion2')
+            setTimeout(()=>{
+                if (gauntletMode) {
+                    this.scene.start('unicorn2');
+                }else{
+                    this.scene.start('lion2')
+                }
             },1500)
             lion2Scene.sound.play('cursor', { volume: 0.4, seek: 0.65});
             //show text/update pb
@@ -2086,14 +1819,14 @@ lion2Scene.create=function(){
             lion2Scene.sound.play('wrong', { volume: 0.4});
             shake.shake()
         }
-    })
+    },this)
 
     //press R to reload page
-    keyR.on('down',function(event){
+    this.keyR.on('down',function(event){
         game.scene.start('lion2')
     })
     //press P to clear PB and reload page
-    keyP.on('down',function(event){
+    this.keyP.on('down',function(event){
         localStorage.removeItem("Lion2PBTime");
         game.scene.start('lion2')
     })
@@ -2192,6 +1925,21 @@ unicorn2Scene.create=function(){
     dial3=this.add.sprite((width/20)*12,970-dial3Num*symbHeight,`unicornB3`).setScale(1.7)
 
     backgroundMask=this.add.sprite(0,0,`background`).setOrigin(0, 0)
+    gauntletButton = this.add.text(width-300, 100, `Gauntlet Mode:\n        ${gauntletMode ? 'ON' : 'OFF'}`,{backgroundColor: '#ae1d1d', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 24, }).setOrigin(0,1)
+        .setPadding(10)
+        .setInteractive( { useHandCursor: true })
+        .on('pointerover',function(pointer){
+            gauntletButton.setScale(1.05);
+        })
+        .on('pointerout',function(pointer){
+            gauntletButton.setScale(1);
+        })
+	    .on('pointerdown', function(){
+            gauntletMode = !gauntletMode
+            gauntletButton.setText(
+            `Gauntlet Mode:\n        ${gauntletMode ? 'ON' : 'OFF'}`)
+        },this)
+
     //back to home button
     homeButton = this.add.text(0, 720, 'BACK',{backgroundColor: '#4CAF50', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 54, }).setOrigin(0,1)
         .setPadding(10)
@@ -2252,19 +2000,19 @@ unicorn2Scene.create=function(){
     dial2.tint=darkTint //dull the others
     dial3.tint=darkTint
     //keyboard inputs
-    keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-    keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-    keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-    keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-    keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
-    keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
-    keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
-    keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-    keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
-    keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-    keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-    keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-    keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+    this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    this.keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+    this.keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+    this.keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+    this.keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+    this.keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+    this.keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+    this.keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+    this.keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+    this.keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     //adding SOUNDS
     cursor=this.sound.add('cursor',{volume: 0.4})
     wrong=this.sound.add('wrong',{volume: 0.4})
@@ -2290,7 +2038,7 @@ unicorn2Scene.create=function(){
         return false;
     }}
     //on W or S press, go up and down each dial
-    keyW.on('down', function(event) { 
+    this.keyW.on('down', function(event) { 
         eval(`
         if(dial${selectedDial}Num>5){
             dial${selectedDial}Num=0
@@ -2306,7 +2054,7 @@ unicorn2Scene.create=function(){
         `)
     });
     
-    keyS.on('down', function(event) { 
+    this.keyS.on('down', function(event) { 
         eval(`
         if(dial${selectedDial}Num<=0){
             dial${selectedDial}Num=6
@@ -2322,7 +2070,7 @@ unicorn2Scene.create=function(){
         `)
     });
     //tap A and D to change dial
-    keyA.on('down', function(event) { 
+    this.keyA.on('down', function(event) { 
         if(tween1W.isPlaying() || tween1S.isPlaying() || tween2W.isPlaying() || tween2S.isPlaying() || tween3W.isPlaying() || tween3S.isPlaying()){
             return;
         }
@@ -2337,7 +2085,7 @@ unicorn2Scene.create=function(){
         eval(`dial${selectedDial}.tint=${lightTint}`) //highlight new dial
         
     });
-    keyD.on('down', function(event) { 
+    this.keyD.on('down', function(event) { 
         if(tween1W.isPlaying() || tween1S.isPlaying() || tween2W.isPlaying() || tween2S.isPlaying() || tween3W.isPlaying() || tween3S.isPlaying()){
             return;
         }
@@ -2351,18 +2099,18 @@ unicorn2Scene.create=function(){
         }
         eval(`dial${selectedDial}.tint=${lightTint}`) //highlight new dial
     });
-    keyUp.on('down', function(event) {
-        keyW.emit('down', event);
-    });
-    keyDown.on('down', function(event) {
-        keyS.emit('down', event);
-    });
-    keyLeft.on('down', function(event) {
-        keyA.emit('down', event);
-    });
-    keyRight.on('down', function(event) {
-        keyD.emit('down', event);
-    });
+    this.keyUp.on('down', function(event) {
+        this.keyW.emit('down', event);
+    },this);
+    this.keyDown.on('down', function(event) {
+        this.keyS.emit('down', event);
+    },this);
+    this.keyLeft.on('down', function(event) {
+        this.keyA.emit('down', event);
+    },this);
+    this.keyRight.on('down', function(event) {
+        this.keyD.emit('down', event);
+    },this);
     this.input.on('pointerdown', function(pointer) {
 
         if (
@@ -2371,139 +2119,49 @@ unicorn2Scene.create=function(){
                 this.btnA,
                 this.btnS,
                 this.btnD,
-                this.btnF
+                this.btnF,
+                resetButton,
+                homeButton,
+                reloadButton,
+                gauntletButton
             ], this.cameras.main).length > 0
         ) {
             return; // Clicked on a virtual button
         }
 
-        keyF.emit('down', pointer);
+        this.keyF.emit('down', pointer);
 
     }, this);
 
     //TOUCHSCREEN CONTROLS
     this.btnW = this.add.circle(230, 350, 80, 0xffffff, 0.3).setInteractive();
+    this.add.text(230, 350, "W", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     this.btnS = this.add.circle(230, 530, 80, 0xffffff, 0.3).setInteractive();
-
+    this.add.text(  230, 530, "S", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     this.btnA = this.add.circle(this.scale.width - 300, 530, 80, 0xffffff, 0.3).setInteractive();
+    this.add.text(this.scale.width - 300, 530, "A", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     this.btnD = this.add.circle(this.scale.width - 120, 530, 80, 0xffffff, 0.3).setInteractive();
+    this.add.text(this.scale.width - 120, 530, "D", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     this.btnF = this.add.circle(this.scale.width - 120, 230, 60, 0xffffff, 0.3).setInteractive();
+    this.add.text(this.scale.width - 120, 230, "F", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     //EMULATE WASD AND F INPUTS
-    this.btnW.on('pointerdown', () => keyW.emit('down'));
-    this.btnA.on('pointerdown', () => keyA.emit('down'));
-    this.btnS.on('pointerdown', () => keyS.emit('down'));
-    this.btnD.on('pointerdown', () => keyD.emit('down'));
-    this.btnF.on('pointerdown', () => keyF.emit('down'));
+    this.btnW.on('pointerdown', () => this.keyW.emit('down'));
+    this.btnA.on('pointerdown', () => this.keyA.emit('down'));
+    this.btnS.on('pointerdown', () => this.keyS.emit('down'));
+    this.btnD.on('pointerdown', () => this.keyD.emit('down'));
+    this.btnF.on('pointerdown', () => this.keyF.emit('down'));
 
     //Q E , or F to confirm solution
     completedTime=0
     timerStopped=false
-    keyQ.on('down',function(event){
-        //check if any input was dropped (numbers are not whole)
-        if(dial1Num % 1 != 0 ||dial2Num % 1 != 0 ||dial3Num % 1 != 0){
-            //after error message, reload page
-            setTimeout(function(){
-                game.scene.start('unicorn2');
-            },1500)
-            unicorn2Scene.sound.play('cursor', { volume: 0.4, seek: 0.65});
-            text.setText(`You're inputting too fast! Restarting!`);
-            text.setFill('#FF0000');
-        //then check for correct solution
-        }else if((dial1Num==0 || dial1Num==6)&&(dial2Num==0||dial2Num==6) && (dial3Num==0||dial3Num==6)){
-            //after correct message, reload page
-            timerStopped=true
-            completedTime=timedEvent.getElapsedSeconds().toFixed(3);
-            setTimeout(function(){
-                game.scene.start('unicorn2');
-            },1500)
-            unicorn2Scene.sound.play('cursor', { volume: 0.4, seek: 0.65});
-            //show text/update pb
-            if(Unicorn2PBTime!=null){
-                //if pb'd
-                console.log(Unicorn2PBTime)
-                console.log(completedTime)
-                if(parseFloat(completedTime)<parseFloat(Unicorn2PBTime)){
-                    text.setText(`New PB by ${(Unicorn2PBTime-completedTime).toFixed(2)}s! ${completedTime} seconds!`);
-                    text.setFill('#00FF00');
-                    Unicorn2PBTime=completedTime
-                    localStorage.setItem('Unicorn2PBTime', Unicorn2PBTime);
-                //if no pb
-                }else{
-                    text.setText(`Correct! ${completedTime} seconds!`);
-                }
-            //set new pb (no previous pb)
-            }else{
-                Unicorn2PBTime=completedTime
-                localStorage.setItem('Unicorn2PBTime', Unicorn2PBTime);
-                text.setText(`New PB: ${completedTime} seconds!`);
-                text.setFill('#00FF00');
-            }
-        }else{
-            //after 'wrong' message, revert to normal
-            setTimeout(function(){
-                text.setText('Twin Scale Worm');
-                text.setFill('#FFFFFF');
-            },700)
-            text.setText('Wrong!') 
-            text.setFill('#FF0000');
-            unicorn2Scene.sound.play('wrong', { volume: 0.4});
-            shake.shake()
-        }
-    })
-    keyE.on('down',function(event){
-        //check if any input was dropped (numbers are not whole)
-        if(dial1Num % 1 != 0 ||dial2Num % 1 != 0 ||dial3Num % 1 != 0){
-            //after error message, reload page
-            setTimeout(function(){
-                game.scene.start('unicorn2')
-            },1500)
-            unicorn2Scene.sound.play('cursor', { volume: 0.4, seek: 0.65});
-            text.setText(`You're inputting too fast! Restarting!`);
-            text.setFill('#FF0000');
-        //then check for correct solution
-        }else if((dial1Num==0 || dial1Num==6)&&(dial2Num==0||dial2Num==6) && (dial3Num==0||dial3Num==6)){
-            //after correct message, reload page
-            timerStopped=true
-            completedTime=timedEvent.getElapsedSeconds().toFixed(3);
-            setTimeout(function(){
-                game.scene.start('unicorn2')
-            },1500)
-            unicorn2Scene.sound.play('cursor', { volume: 0.4, seek: 0.65});
-            //show text/update pb
-            if(Unicorn2PBTime!=null){
-                //if pb'd
-                console.log(Unicorn2PBTime)
-                console.log(completedTime)
-                if(parseFloat(completedTime)<parseFloat(Unicorn2PBTime)){
-                    text.setText(`New PB by ${(Unicorn2PBTime-completedTime).toFixed(2)}s! ${completedTime} seconds!`);
-                    text.setFill('#00FF00');
-                    Unicorn2PBTime=completedTime
-                    localStorage.setItem('Unicorn2PBTime', Unicorn2PBTime);
-                //if no pb
-                }else{
-                    text.setText(`Correct! ${completedTime} seconds!`);
-                }
-            //set new pb (no previous pb)
-            }else{
-                Unicorn2PBTime=completedTime
-                localStorage.setItem('Unicorn2PBTime', Unicorn2PBTime);
-                text.setText(`New PB: ${completedTime} seconds!`);
-                text.setFill('#00FF00');
-            }
-        }else{
-            //after 'wrong' message, revert to normal
-            setTimeout(function(){
-                text.setText('Twin Scale Worm');
-                text.setFill('#FFFFFF');
-            },700)
-            text.setText('Wrong!') 
-            text.setFill('#FF0000');
-            unicorn2Scene.sound.play('wrong', { volume: 0.4});
-            shake.shake()
-        }
-    })
+    this.keyQ.on('down',function(event){
+        this.keyF.emit('down', event);
+    },this);
+    this.keyE.on('down',function(event){
+        this.keyF.emit('down', event);
+    },this);
     
-    keyF.on('down',function(event){
+    this.keyF.on('down',function(event){
         //check if any input was dropped (numbers are not whole)
         if(dial1Num % 1 != 0 ||dial2Num % 1 != 0 ||dial3Num % 1 != 0){
             //after error message, reload page
@@ -2518,8 +2176,12 @@ unicorn2Scene.create=function(){
             //after correct message, reload page
             timerStopped=true
             completedTime=timedEvent.getElapsedSeconds().toFixed(3);
-            setTimeout(function(){
-                game.scene.start('unicorn2')
+            setTimeout(()=>{
+                if (gauntletMode) {
+                    this.scene.start('maiden2');
+                }else{
+                    this.scene.start('unicorn2');
+                }
             },1500)
             unicorn2Scene.sound.play('cursor', { volume: 0.4, seek: 0.65});
             //show text/update pb
@@ -2554,14 +2216,14 @@ unicorn2Scene.create=function(){
             unicorn2Scene.sound.play('wrong', { volume: 0.4});
             shake.shake()
         }
-    })
+    },this)
 
     //press R to reload page
-    keyR.on('down',function(event){
+    this.keyR.on('down',function(event){
         game.scene.start('unicorn2')
     })
     //press P to clear PB and reload page
-    keyP.on('down',function(event){
+    this.keyP.on('down',function(event){
         localStorage.removeItem("Unicorn2PBTime");
         game.scene.start('unicorn2')
     })
@@ -2660,7 +2322,22 @@ maiden2Scene.create=function(){
     dial3=this.add.sprite((width/20)*12,970-dial3Num*symbHeight,`maidenB3`).setScale(1.7)
 
     backgroundMask=this.add.sprite(0,0,`background`).setOrigin(0, 0)
+    gauntletButton = this.add.text(width-300, 100, `Gauntlet Mode:\n        ${gauntletMode ? 'ON' : 'OFF'}`,{backgroundColor: '#ae1d1d', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 24, }).setOrigin(0,1)
+        .setPadding(10)
+        .setInteractive( { useHandCursor: true })
+        .on('pointerover',function(pointer){
+            gauntletButton.setScale(1.05);
+        })
+        .on('pointerout',function(pointer){
+            gauntletButton.setScale(1);
+        })
+	    .on('pointerdown', function(){
+            gauntletMode = !gauntletMode
+            gauntletButton.setText(
+            `Gauntlet Mode:\n        ${gauntletMode ? 'ON' : 'OFF'}`)
+        },this)
     //back to home button
+    
     homeButton = this.add.text(0, 720, 'BACK',{backgroundColor: '#4CAF50', fill: '#FFFFFF',fontFamily:'Trebuchet MS', fontSize: 54, }).setOrigin(0,1)
         .setPadding(10)
         .setInteractive( { useHandCursor: true })
@@ -2720,19 +2397,19 @@ maiden2Scene.create=function(){
     dial2.tint=darkTint //dull the others
     dial3.tint=darkTint
     //keyboard inputs
-    keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-    keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-    keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-    keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-    keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
-    keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
-    keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
-    keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-    keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
-    keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-    keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-    keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-    keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+    this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    this.keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+    this.keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+    this.keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+    this.keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+    this.keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+    this.keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+    this.keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+    this.keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+    this.keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     //adding SOUNDS
     cursor=this.sound.add('cursor',{volume: 0.4})
     wrong=this.sound.add('wrong',{volume: 0.4})
@@ -2758,7 +2435,7 @@ maiden2Scene.create=function(){
         return false;
     }}
     //on W or S press, go up and down each dial
-    keyW.on('down', function(event) { 
+    this.keyW.on('down', function(event) { 
         eval(`
         if(dial${selectedDial}Num>5){
             dial${selectedDial}Num=0
@@ -2774,7 +2451,7 @@ maiden2Scene.create=function(){
         `)
     });
     
-    keyS.on('down', function(event) { 
+    this.keyS.on('down', function(event) { 
         eval(`
         if(dial${selectedDial}Num<=0){
             dial${selectedDial}Num=6
@@ -2790,7 +2467,7 @@ maiden2Scene.create=function(){
         `)
     });
     //tap A and D to change dial
-    keyA.on('down', function(event) { 
+    this.keyA.on('down', function(event) { 
         if(tween1W.isPlaying() || tween1S.isPlaying() || tween2W.isPlaying() || tween2S.isPlaying() || tween3W.isPlaying() || tween3S.isPlaying()){
             return;
         }
@@ -2805,7 +2482,7 @@ maiden2Scene.create=function(){
         eval(`dial${selectedDial}.tint=${lightTint}`) //highlight new dial
         
     });
-    keyD.on('down', function(event) { 
+    this.keyD.on('down', function(event) { 
         if(tween1W.isPlaying() || tween1S.isPlaying() || tween2W.isPlaying() || tween2S.isPlaying() || tween3W.isPlaying() || tween3S.isPlaying()){
             return;
         }
@@ -2819,18 +2496,18 @@ maiden2Scene.create=function(){
         }
         eval(`dial${selectedDial}.tint=${lightTint}`) //highlight new dial
     });
-    keyUp.on('down', function(event) {
-        keyW.emit('down', event);
-    });
-    keyDown.on('down', function(event) {
-        keyS.emit('down', event);
-    });
-    keyLeft.on('down', function(event) {
-        keyA.emit('down', event);
-    });
-    keyRight.on('down', function(event) {
-        keyD.emit('down', event);
-    });
+    this.keyUp.on('down', function(event) {
+        this.keyW.emit('down', event);
+    },this);
+    this.keyDown.on('down', function(event) {
+        this.keyS.emit('down', event);
+    },this);
+    this.keyLeft.on('down', function(event) {
+        this.keyA.emit('down', event);
+    },this);
+    this.keyRight.on('down', function(event) {
+        this.keyD.emit('down', event);
+    },this);
     this.input.on('pointerdown', function(pointer) {
 
         if (
@@ -2839,139 +2516,49 @@ maiden2Scene.create=function(){
                 this.btnA,
                 this.btnS,
                 this.btnD,
-                this.btnF
+                this.btnF,
+                resetButton,
+                homeButton,
+                reloadButton,
+                gauntletButton
             ], this.cameras.main).length > 0
         ) {
             return; // Clicked on a virtual button
         }
 
-        keyF.emit('down', pointer);
+        this.keyF.emit('down', pointer);
 
     }, this);
 
     //TOUCHSCREEN CONTROLS
     this.btnW = this.add.circle(230, 350, 80, 0xffffff, 0.3).setInteractive();
+    this.add.text(230, 350, "W", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     this.btnS = this.add.circle(230, 530, 80, 0xffffff, 0.3).setInteractive();
-
+    this.add.text(  230, 530, "S", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     this.btnA = this.add.circle(this.scale.width - 300, 530, 80, 0xffffff, 0.3).setInteractive();
+    this.add.text(this.scale.width - 300, 530, "A", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     this.btnD = this.add.circle(this.scale.width - 120, 530, 80, 0xffffff, 0.3).setInteractive();
+    this.add.text(this.scale.width - 120, 530, "D", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     this.btnF = this.add.circle(this.scale.width - 120, 230, 60, 0xffffff, 0.3).setInteractive();
+    this.add.text(this.scale.width - 120, 230, "F", {fontSize: "48px",color: "#ffffff",fontStyle: "bold"}).setOrigin(0.5);
     //EMULATE WASD AND F INPUTS
-    this.btnW.on('pointerdown', () => keyW.emit('down'));
-    this.btnA.on('pointerdown', () => keyA.emit('down'));
-    this.btnS.on('pointerdown', () => keyS.emit('down'));
-    this.btnD.on('pointerdown', () => keyD.emit('down'));
-    this.btnF.on('pointerdown', () => keyF.emit('down'));
+    this.btnW.on('pointerdown', () => this.keyW.emit('down'));
+    this.btnA.on('pointerdown', () => this.keyA.emit('down'));
+    this.btnS.on('pointerdown', () => this.keyS.emit('down'));
+    this.btnD.on('pointerdown', () => this.keyD.emit('down'));
+    this.btnF.on('pointerdown', () => this.keyF.emit('down'));
 
     //Q E , or F to confirm solution
     completedTime=0
     timerStopped=false
-    keyQ.on('down',function(event){
-        //check if any input was dropped (numbers are not whole)
-        if(dial1Num % 1 != 0 ||dial2Num % 1 != 0 ||dial3Num % 1 != 0){
-            //after error message, reload page
-            setTimeout(function(){
-                game.scene.start('maiden2');
-            },1500)
-            maiden2Scene.sound.play('cursor', { volume: 0.4, seek: 0.65});
-            text.setText(`You're inputting too fast! Restarting!`);
-            text.setFill('#FF0000');
-        //then check for correct solution
-        }else if((dial1Num==0 || dial1Num==6)&&(dial2Num==0||dial2Num==6) && (dial3Num==0||dial3Num==6)){
-            //after correct message, reload page
-            timerStopped=true
-            completedTime=timedEvent.getElapsedSeconds().toFixed(3);
-            setTimeout(function(){
-                game.scene.start('maiden2');
-            },1500)
-            maiden2Scene.sound.play('cursor', { volume: 0.4, seek: 0.65});
-            //show text/update pb
-            if(Maiden2PBTime!=null){
-                //if pb'd
-                console.log(Maiden2PBTime)
-                console.log(completedTime)
-                if(parseFloat(completedTime)<parseFloat(Maiden2PBTime)){
-                    text.setText(`New PB by ${(Maiden2PBTime-completedTime).toFixed(2)}s! ${completedTime} seconds!`);
-                    text.setFill('#00FF00');
-                    Maiden2PBTime=completedTime
-                    localStorage.setItem('Maiden2PBTime', Maiden2PBTime);
-                //if no pb
-                }else{
-                    text.setText(`Correct! ${completedTime} seconds!`);
-                }
-            //set new pb (no previous pb)
-            }else{
-                Maiden2PBTime=completedTime
-                localStorage.setItem('Maiden2PBTime', Maiden2PBTime);
-                text.setText(`New PB: ${completedTime} seconds!`);
-                text.setFill('#00FF00');
-            }
-        }else{
-            //after 'wrong' message, revert to normal
-            setTimeout(function(){
-                text.setText('Ram Harp Bird');
-                text.setFill('#FFFFFF');
-            },700)
-            text.setText('Wrong!') 
-            text.setFill('#FF0000');
-            maiden2Scene.sound.play('wrong', { volume: 0.4});
-            shake.shake()
-        }
-    })
-    keyE.on('down',function(event){
-        //check if any input was dropped (numbers are not whole)
-        if(dial1Num % 1 != 0 ||dial2Num % 1 != 0 ||dial3Num % 1 != 0){
-            //after error message, reload page
-            setTimeout(function(){
-                game.scene.start('maiden2')
-            },1500)
-            maiden2Scene.sound.play('cursor', { volume: 0.4, seek: 0.65});
-            text.setText(`You're inputting too fast! Restarting!`);
-            text.setFill('#FF0000');
-        //then check for correct solution
-        }else if((dial1Num==0 || dial1Num==6)&&(dial2Num==0||dial2Num==6) && (dial3Num==0||dial3Num==6)){
-            //after correct message, reload page
-            timerStopped=true
-            completedTime=timedEvent.getElapsedSeconds().toFixed(3);
-            setTimeout(function(){
-                game.scene.start('maiden2')
-            },1500)
-            maiden2Scene.sound.play('cursor', { volume: 0.4, seek: 0.65});
-            //show text/update pb
-            if(Maiden2PBTime!=null){
-                //if pb'd
-                console.log(Maiden2PBTime)
-                console.log(completedTime)
-                if(parseFloat(completedTime)<parseFloat(Maiden2PBTime)){
-                    text.setText(`New PB by ${(Maiden2PBTime-completedTime).toFixed(2)}s! ${completedTime} seconds!`);
-                    text.setFill('#00FF00');
-                    Maiden2PBTime=completedTime
-                    localStorage.setItem('Maiden2PBTime', Maiden2PBTime);
-                //if no pb
-                }else{
-                    text.setText(`Correct! ${completedTime} seconds!`);
-                }
-            //set new pb (no previous pb)
-            }else{
-                Maiden2PBTime=completedTime
-                localStorage.setItem('Maiden2PBTime', Maiden2PBTime);
-                text.setText(`New PB: ${completedTime} seconds!`);
-                text.setFill('#00FF00');
-            }
-        }else{
-            //after 'wrong' message, revert to normal
-            setTimeout(function(){
-                text.setText('Ram Harp Bird');
-                text.setFill('#FFFFFF');
-            },700)
-            text.setText('Wrong!') 
-            text.setFill('#FF0000');
-            maiden2Scene.sound.play('wrong', { volume: 0.4});
-            shake.shake()
-        }
-    })
+    this.keyQ.on('down',function(event){
+        this.keyF.emit('down', event);
+    },this);
+    this.keyE.on('down',function(event){
+        this.keyF.emit('down', event);
+    },this);
     
-    keyF.on('down',function(event){
+    this.keyF.on('down',function(event){
         //check if any input was dropped (numbers are not whole)
         if(dial1Num % 1 != 0 ||dial2Num % 1 != 0 ||dial3Num % 1 != 0){
             //after error message, reload page
@@ -2986,8 +2573,12 @@ maiden2Scene.create=function(){
             //after correct message, reload page
             timerStopped=true
             completedTime=timedEvent.getElapsedSeconds().toFixed(3);
-            setTimeout(function(){
-                game.scene.start('maiden2')
+            setTimeout(()=>{
+                if (gauntletMode) {
+                    this.scene.start('lion2');
+                }else{
+                    this.scene.start('maiden2')
+                }
             },1500)
             maiden2Scene.sound.play('cursor', { volume: 0.4, seek: 0.65});
             //show text/update pb
@@ -3022,14 +2613,14 @@ maiden2Scene.create=function(){
             maiden2Scene.sound.play('wrong', { volume: 0.4});
             shake.shake()
         }
-    })
+    },this)
 
     //press R to reload page
-    keyR.on('down',function(event){
+    this.keyR.on('down',function(event){
         game.scene.start('maiden2')
     })
     //press P to clear PB and reload page
-    keyP.on('down',function(event){
+    this.keyP.on('down',function(event){
         localStorage.removeItem("Maiden2PBTime");
         game.scene.start('maiden2')
     })
