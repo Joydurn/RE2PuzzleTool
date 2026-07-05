@@ -1781,7 +1781,7 @@ lion2Scene.create=function(){
             completedTime=timedEvent.getElapsedSeconds().toFixed(3);
             setTimeout(()=>{
                 if (gauntletMode) {
-                    this.scene.start('unicorn2');
+                    this.scene.start('maiden2');
                 }else{
                     this.scene.start('lion2')
                 }
@@ -2178,7 +2178,7 @@ unicorn2Scene.create=function(){
             completedTime=timedEvent.getElapsedSeconds().toFixed(3);
             setTimeout(()=>{
                 if (gauntletMode) {
-                    this.scene.start('maiden2');
+                    this.scene.start('lion2');
                 }else{
                     this.scene.start('unicorn2');
                 }
@@ -2575,7 +2575,7 @@ maiden2Scene.create=function(){
             completedTime=timedEvent.getElapsedSeconds().toFixed(3);
             setTimeout(()=>{
                 if (gauntletMode) {
-                    this.scene.start('lion2');
+                    this.scene.start('unicorn2');
                 }else{
                     this.scene.start('maiden2')
                 }
