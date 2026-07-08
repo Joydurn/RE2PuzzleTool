@@ -569,6 +569,8 @@ lionScene.create=function(){
             setTimeout(function(){
                 game.scene.start('lion')
             },1500)
+            //prevent subsequent inputs from being registered
+            this.keyF.off('down');
             lionScene.sound.play('cursor', { volume: 0.4, seek: 0.65});
             text.setText(`You're inputting too fast! Restarting!`);
             text.setFill('#FF0000');
@@ -584,6 +586,8 @@ lionScene.create=function(){
                     this.scene.start('lion')
                 }
             },1500)
+            //prevent subsequent inputs from being registered
+            this.keyF.off('down');
             lionScene.sound.play('cursor', { volume: 0.4, seek: 0.65});
             //show text/update pb
             if(LionPBTime!=null){
@@ -968,6 +972,8 @@ unicornScene.create=function(){
             setTimeout(function(){
                 game.scene.start('unicorn')
             },1500)
+            //prevent subsequent inputs from being registered
+            this.keyF.off('down');
             unicornScene.sound.play('cursor', { volume: 0.4, seek: 0.65});
             text.setText(`You're inputting too fast! Restarting!`);
             text.setFill('#FF0000');
@@ -983,6 +989,8 @@ unicornScene.create=function(){
                     this.scene.start('unicorn')
                 }
             },1500)
+            //prevent subsequent inputs from being registered
+            this.keyF.off('down');
             unicornScene.sound.play('cursor', { volume: 0.4, seek: 0.65});
             //show text/update pb
             if(UnicornPBTime!=null){
@@ -1366,6 +1374,8 @@ maidenScene.create=function(){
             setTimeout(function(){
                 game.scene.start('maiden')
             },1500)
+            //prevent subsequent inputs from being registered
+            this.keyF.off('down');
             maidenScene.sound.play('cursor', { volume: 0.4, seek: 0.65});
             text.setText(`You're inputting too fast! Restarting!`);
             text.setFill('#FF0000');
@@ -1381,6 +1391,8 @@ maidenScene.create=function(){
                     this.scene.start('maiden')
                 }
             },1500)
+            //prevent subsequent inputs from being registered
+            this.keyF.off('down');
             maidenScene.sound.play('cursor', { volume: 0.4, seek: 0.65});
             //show text/update pb
             if(MaidenPBTime!=null){
@@ -1769,6 +1781,8 @@ lion2Scene.create=function(){
             setTimeout(function(){
                 game.scene.start('lion2')
             },1500)
+            //prevent subsequent inputs from being registered
+            this.keyF.off('down');
             lion2Scene.sound.play('cursor', { volume: 0.4, seek: 0.65});
             text.setText(`You're inputting too fast! Restarting!`);
             text.setFill('#FF0000');
@@ -1784,6 +1798,8 @@ lion2Scene.create=function(){
                     this.scene.start('lion2')
                 }
             },1500)
+            //prevent subsequent inputs from being registered
+            this.keyF.off('down');
             lion2Scene.sound.play('cursor', { volume: 0.4, seek: 0.65});
             //show text/update pb
             if(Lion2PBTime!=null){
@@ -2166,6 +2182,8 @@ unicorn2Scene.create=function(){
             setTimeout(function(){
                 game.scene.start('unicorn2')
             },1500)
+            //prevent subsequent inputs from being registered
+            this.keyF.off('down');
             unicorn2Scene.sound.play('cursor', { volume: 0.4, seek: 0.65});
             text.setText(`You're inputting too fast! Restarting!`);
             text.setFill('#FF0000');
@@ -2181,6 +2199,8 @@ unicorn2Scene.create=function(){
                     this.scene.start('unicorn2');
                 }
             },1500)
+            //prevent subsequent inputs from being registered
+            this.keyF.off('down');
             unicorn2Scene.sound.play('cursor', { volume: 0.4, seek: 0.65});
             //show text/update pb
             if(Unicorn2PBTime!=null){
@@ -2563,6 +2583,8 @@ maiden2Scene.create=function(){
             setTimeout(function(){
                 game.scene.start('maiden2')
             },1500)
+            //prevent subsequent inputs from being registered
+            this.keyF.off('down');
             maiden2Scene.sound.play('cursor', { volume: 0.4, seek: 0.65});
             text.setText(`You're inputting too fast! Restarting!`);
             text.setFill('#FF0000');
@@ -2578,6 +2600,8 @@ maiden2Scene.create=function(){
                     this.scene.start('maiden2')
                 }
             },1500)
+            //prevent subsequent inputs from being registered
+            this.keyF.off('down');
             maiden2Scene.sound.play('cursor', { volume: 0.4, seek: 0.65});
             //show text/update pb
             if(Maiden2PBTime!=null){
