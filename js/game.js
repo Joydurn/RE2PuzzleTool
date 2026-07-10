@@ -606,7 +606,7 @@ lionScene.create=function(){
             //set new pb (no previous pb)
             }else{
                 LionPBTime=completedTime
-                localStorage.setItem('LionLionPBTime', LionPBTime);
+                localStorage.setItem('LionPBTime', LionPBTime);
                 text.setText(`New PB: ${completedTime} seconds!`);
                 text.setFill('#00FF00');
             }
@@ -1818,7 +1818,7 @@ lion2Scene.create=function(){
             //set new pb (no previous pb)
             }else{
                 Lion2PBTime=completedTime
-                localStorage.setItem('LionLion2PBTime', Lion2PBTime);
+                localStorage.setItem('Lion2PBTime', Lion2PBTime);
                 text.setText(`New PB: ${completedTime} seconds!`);
                 text.setFill('#00FF00');
             }
